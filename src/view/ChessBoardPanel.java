@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class ChessBoardPanel extends JPanel {
     private final int CHESS_COUNT = 8;
-    private ChessGridComponent[][] chessGrids;
+    private static ChessGridComponent[][] chessGrids;
 
     public ChessBoardPanel(int width, int height) {
         this.setVisible(true);
@@ -21,7 +21,6 @@ public class ChessBoardPanel extends JPanel {
         ChessGridComponent.chessSize = (int) (ChessGridComponent.gridSize * 0.8);
         System.out.printf("width = %d height = %d gridSize = %d chessSize = %d\n",
                 width, height, ChessGridComponent.gridSize, ChessGridComponent.chessSize);
-
         initialChessGrids();//return empty chessboard
         initialGame();//add initial four chess
 
@@ -55,6 +54,18 @@ public class ChessBoardPanel extends JPanel {
         chessGrids[4][4].setChessPiece(ChessPiece.BLACK);
     }
 
+    public void redraw(int[][] board){
+        for (int i = 0;i<8;i++)
+            for(int j = 0;j<8;j++){
+                if(board[i][j]==1) chessGrids[i][j].setChessPiece(ChessPiece.WHITE);
+                if(board[i][j]==-1) chessGrids[i][j].setChessPiece(ChessPiece.BLACK);
+            }
+        repaint();
+    }
+
+    public static ChessGridComponent[][] getChessGrids(){
+        return chessGrids;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -66,5 +77,9 @@ public class ChessBoardPanel extends JPanel {
     public boolean canClickGrid(int row, int col, ChessPiece currentPlayer) {
         //todo: complete this method
         return true;
+    }
+
+    public void restartGame() {
+        
     }
 }

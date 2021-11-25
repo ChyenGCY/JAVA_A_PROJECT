@@ -16,6 +16,7 @@ public class GameController {
     private ChessPiece currentPlayer;
     private int blackScore;
     private int whiteScore;
+    private GameRule gameRule;
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
         this.gamePanel = gamePanel;
@@ -23,6 +24,11 @@ public class GameController {
         this.currentPlayer = ChessPiece.BLACK;
         blackScore = 2;
         whiteScore = 2;
+        gameRule = new GameRule(gamePanel);
+    }
+
+    public GameRule getGameRule(){
+        return gameRule;
     }
 
     public void swapPlayer() {
@@ -68,6 +74,7 @@ public class GameController {
                 fileData.add(line);
             }
             fileData.forEach(System.out::println);
+            bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,5 +86,9 @@ public class GameController {
 
     public boolean canClick(int row, int col) {
         return gamePanel.canClickGrid(row, col, currentPlayer);
+    }
+
+    public void restartGame() {
+        gamePanel.restartGame();
     }
 }

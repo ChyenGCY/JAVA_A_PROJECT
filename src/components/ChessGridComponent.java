@@ -1,6 +1,7 @@
 package components;
 
 import controller.GameController;
+import controller.GameRule;
 import model.*;
 import view.GameFrame;
 
@@ -14,7 +15,7 @@ public class ChessGridComponent extends BasicComponent {
     private ChessPiece chessPiece;
     private int row;
     private int col;
-
+     
     public ChessGridComponent(int row, int col) {
         this.setSize(gridSize, gridSize);
 
@@ -27,12 +28,15 @@ public class ChessGridComponent extends BasicComponent {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
         //todo: complete mouse click method
         if (GameFrame.controller.canClick(row, col)) {
-            if (this.chessPiece == null) {
+            if (this.chessPiece == null && GameRule.isAvailable(row, col)) {
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
                 GameFrame.controller.swapPlayer();
+                GameRule.updateBoard(row,col);
+                repaint();
             }
-            repaint();
+            else System.out.println("valid click");
         }
+        
     }
 
 
