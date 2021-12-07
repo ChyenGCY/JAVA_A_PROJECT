@@ -12,7 +12,7 @@ public class GameRule extends BasicComponent{
     // private int[][] chessBoard;
 
     public GameRule(ChessBoardPanel chessBoardPanel){
-        this.chessBoardPanel = chessBoardPanel;
+        GameRule.chessBoardPanel = chessBoardPanel;
     }
 
     public static boolean isEmpty(int x,int y){
@@ -36,9 +36,54 @@ public class GameRule extends BasicComponent{
         return false;
     }
 
-    public static void updateBoard(int x,int y) {
+    public static int numCanFlip(int x,int y){
+        int max_flip = 0;
         int[][] new_board = ChessBoard.instance();
-        int last_player = GameFrame.controller.getCurrentPlayer().getType()*-1;
+        for(int k=0;k<8;k++){
+            int new_x = x+x_domain[k];
+            int new_y = y+y_domain[k];
+            int num = 0;
+            while(new_x>=0 && new_y>=0 && new_x<8 && new_y<8 && new_board[new_x][new_y] == -1){
+                new_x += x_domain[k];
+                new_y += y_domain[k];
+                ++num;
+            }
+            if(num>=1 && new_x>=0 && new_y>=0 && new_x<8 && new_y<8 && new_board[new_x][new_y] == 1)
+                max_flip+=num;
+        }
+        
+        // for (int a = 0;a<8;a++){
+        //     for (int b = 0;b<8;b++){
+        //         System.out.print(new_board[a][b]+" ");
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println(max_flip);
+        return max_flip;
+    }
+
+    public static int[][] getExpectMatrix(){
+        int[][] expect = new int[8][8];
+        // int max = 0;
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(isEmpty(i,j)){
+                    expect[i][j] = numCanFlip(i,j);
+                }
+            }
+        }
+        // for (int a = 0;a<8;a++){
+        //         for (int b = 0;b<8;b++){
+        //             System.out.print(expect[a][b]+" ");
+        //         }
+        //         System.out.println();
+        //     }
+        return expect;
+    }
+
+    public static void updateBoard(int x,int y,int last_player) {
+        int[][] new_board = ChessBoard.instance();
+        // int last_player = GameFrame.controller.getCurrentPlayer().getType();
         for(int k=0;k<8;k++){
             int new_x = x+x_domain[k];
             int new_y = y+y_domain[k];
@@ -53,15 +98,16 @@ public class GameRule extends BasicComponent{
                     new_board[x+i*x_domain[k]][y+i*y_domain[k]] = last_player;
                 }
         }
-            
         
+        // System.out.println(numCanFlip(x, y));
         chessBoardPanel.redraw(new_board);
-        for (int a = 0;a<8;a++){
-            for (int b = 0;b<8;b++){
-                System.out.print(new_board[a][b]+" ");
-            }
-            System.out.println();
-        }
+
+        // for (int a = 0;a<8;a++){
+        //     for (int b = 0;b<8;b++){
+        //         System.out.print(new_board[a][b]+" ");
+        //     }
+        //     System.out.println();
+        // }
     }
 
     @Override

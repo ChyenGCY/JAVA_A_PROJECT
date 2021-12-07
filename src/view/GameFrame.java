@@ -2,16 +2,26 @@ package view;
 
 
 import controller.GameController;
+import controller.GameRule;
 
 import javax.swing.*;
+
+import AIPlayer.EasyAI;
+
 import java.awt.*;
 
 public class GameFrame extends JFrame {
     public static GameController controller;
     private ChessBoardPanel chessBoardPanel;
     private StatusPanel statusPanel;
+    private boolean LOCALMODE;
+    private boolean ONLINEMODE;
+    private boolean VSAIMODE;
+    private GameRule gamerule;
+    private EasyAI ai;
+    // private static boolean AITime = false;
 
-    public GameFrame(int frameSize) {
+    public GameFrame(int frameSize,boolean LOCALMODE,boolean ONLINEMODE,boolean VSAIMODE) {
 
         this.setTitle("2021F CS102A Project Reversi");
         this.setLayout(null);
@@ -28,20 +38,16 @@ public class GameFrame extends JFrame {
 
         statusPanel = new StatusPanel((int) (this.getWidth() * 0.8), (int) (this.getHeight() * 0.1));
         statusPanel.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, 0);
-        controller = new GameController(chessBoardPanel, statusPanel);
-        controller.setGamePanel(chessBoardPanel);
-
-        this.add(chessBoardPanel);
-        this.add(statusPanel);
+        
 
 
-        JButton restartBtn = new JButton("Restart");
+        JButton restartBtn = new JButton("AI-GO");
         restartBtn.setSize(120, 50);
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, (this.getHeight() + chessBoardPanel.getHeight()) / 2);
         add(restartBtn);
         restartBtn.addActionListener(e -> {
             controller.restartGame();
-            System.out.println("click restart Btn");
+            System.out.println("AI done.");
         });
 
         JButton loadGameBtn = new JButton("Load");
@@ -63,8 +69,21 @@ public class GameFrame extends JFrame {
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
             controller.writeDataToFile(filePath);
         });
+        
+        if (LOCALMODE){
+            controller = new GameController(chessBoardPanel, statusPanel);
+            controller.setGamePanel(chessBoardPanel);
+        }
 
+        if (ONLINEMODE){
 
+        }
+
+        if (VSAIMODE){
+
+        }
+        this.add(chessBoardPanel);
+        this.add(statusPanel);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

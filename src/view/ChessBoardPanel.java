@@ -1,6 +1,7 @@
 package view;
 
 import components.ChessGridComponent;
+import controller.GameRule;
 import model.ChessPiece;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class ChessBoardPanel extends JPanel {
         initialChessGrids();//return empty chessboard
         initialGame();//add initial four chess
 
-        repaint();
+        // repaint();
     }
 
     /**
@@ -80,6 +81,11 @@ public class ChessBoardPanel extends JPanel {
     }
 
     public void restartGame() {
-        
+        int[] next_step = GameFrame.controller.AI_DO();
+                // System.out.println(GameRule.getExpectMatrix());
+                // GameFrame.controller.swapPlayer();
+                GameRule.updateBoard(next_step[0],next_step[1],ChessPiece.WHITE.getType());
+                GameFrame.controller.countScore();
+                repaint();
     }
 }
