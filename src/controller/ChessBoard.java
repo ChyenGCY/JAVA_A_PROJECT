@@ -1,15 +1,15 @@
 package controller;
 
 import view.*;
-import components.*;
-import model.*;
+// import components.*;
+// import model.*;
 
 public class ChessBoard {
     private static int[][] board = new int[8][8];
 
     public ChessBoard(){}
 
-    static int[][] instance(){
+    public static int[][] instance(){
         for (int i = 0;i<8;i++)
             for (int j = 0;j<8;j++){
                 if(ChessBoardPanel.getChessGrids()[i][j].getChessPiece()==null){

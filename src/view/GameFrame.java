@@ -14,14 +14,15 @@ public class GameFrame extends JFrame {
     public static GameController controller;
     private ChessBoardPanel chessBoardPanel;
     private StatusPanel statusPanel;
-    private boolean LOCALMODE;
-    private boolean ONLINEMODE;
-    private boolean VSAIMODE;
+    public static boolean LOCALMODE;
+    public static boolean ONLINEMODE;
+    public static boolean VSAIMODE;
+    public static int difficulty;
     private GameRule gamerule;
     private EasyAI ai;
     // private static boolean AITime = false;
 
-    public GameFrame(int frameSize,boolean LOCALMODE,boolean ONLINEMODE,boolean VSAIMODE) {
+    public GameFrame(int frameSize,boolean LOCALMODE,boolean ONLINEMODE,boolean VSAIMODE,int difficulty) {
 
         this.setTitle("2021F CS102A Project Reversi");
         this.setLayout(null);
@@ -39,7 +40,10 @@ public class GameFrame extends JFrame {
         statusPanel = new StatusPanel((int) (this.getWidth() * 0.8), (int) (this.getHeight() * 0.1));
         statusPanel.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, 0);
         
-
+        GameFrame.LOCALMODE = LOCALMODE;
+        GameFrame.ONLINEMODE = ONLINEMODE;
+        GameFrame.VSAIMODE = VSAIMODE;
+        GameFrame.difficulty = difficulty;
 
         JButton restartBtn = new JButton("AI-GO");
         restartBtn.setSize(120, 50);
@@ -80,7 +84,8 @@ public class GameFrame extends JFrame {
         }
 
         if (VSAIMODE){
-
+            controller = new GameController(chessBoardPanel, statusPanel);
+            controller.setGamePanel(chessBoardPanel);
         }
         this.add(chessBoardPanel);
         this.add(statusPanel);

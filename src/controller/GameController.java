@@ -2,10 +2,13 @@ package controller;
 
 import model.ChessPiece;
 import view.*;
+import controller.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import AIPlayer.EasyAI;
 
 
 public class GameController {
@@ -17,6 +20,7 @@ public class GameController {
     private int blackScore;
     private int whiteScore;
     private GameRule gameRule;
+    private EasyAI easyAI;
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
         this.gamePanel = gamePanel;
@@ -25,6 +29,7 @@ public class GameController {
         blackScore = 2;
         whiteScore = 2;
         gameRule = new GameRule(gamePanel);
+        this.easyAI = new EasyAI(ChessPiece.WHITE);
     }
 
     public GameRule getGameRule(){
@@ -40,14 +45,40 @@ public class GameController {
 
 
     public void countScore() {
-        //todo: modify the countScore method
-        if (currentPlayer == ChessPiece.BLACK) {
-            blackScore++;
-        } else {
-            whiteScore++;
+        // //todo: modify the countScore method
+        // if (currentPlayer == ChessPiece.BLACK) {
+        //     blackScore++;
+        // } else {
+        //     whiteScore++;
+        // }
+        int black_point = 0;
+        int white_point = 0;
+        int[][] current_board = ChessBoard.instance();
+        for (int i = 0;i<8;i++){
+            for (int j = 0;j<8;j++){
+                if (current_board[i][j]==1){
+                    white_point++;
+                }
+                else if(current_board[i][j]==-1){
+                    black_point++;
+                }
+            }
         }
+        blackScore = black_point;
+        whiteScore = white_point;
+        statusPanel.setScoreText(blackScore, whiteScore);
     }
 
+    public int[] AI_DO(){
+        int[] step = new int[2];
+        if (GameFrame.difficulty == 1)
+            step = easyAI.AIStep();
+        if (GameFrame.difficulty == 2)
+            step = easyAI.diff_AIStep();
+        
+        ChessBoardPanel.getChessGrids()[step[0]][step[1]].setChessPiece(easyAI.getChessPiece());
+        return step;
+    }
 
     public ChessPiece getCurrentPlayer() {
         return currentPlayer;
@@ -60,6 +91,28 @@ public class GameController {
 
     public void setGamePanel(ChessBoardPanel gamePanel) {
         this.gamePanel = gamePanel;
+    }
+
+    public boolean checkWin(){
+        // int[][] chessboard = ChessBoard.instance();
+        for(int i = 0;i<8;i++)
+            for(int j = 0;j<8;j++){
+                if (GameRule.isAvailable(i, j)&&GameRule.isEmpty(i,j)){
+                    return false;
+                }
+            }
+        System.out.print(checkWinner()+"win!");
+        return true;
+    }
+
+    private String checkWinner() {
+        countScore();
+        if (blackScore>whiteScore)
+            return "BlackPlayer";
+        if (blackScore<whiteScore)
+            return "WhitePlayer";
+        else
+            return "Both";
     }
 
 

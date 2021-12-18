@@ -1,11 +1,12 @@
 package components;
 
-import controller.GameController;
+// import controller.GameController;
 import controller.GameRule;
 import model.*;
 import view.GameFrame;
 
 import java.awt.*;
+
 
 public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
@@ -30,13 +31,15 @@ public class ChessGridComponent extends BasicComponent {
         if (GameFrame.controller.canClick(row, col)) {
             if (this.chessPiece == null && GameRule.isAvailable(row, col)) {
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
-                GameFrame.controller.swapPlayer();
-                GameRule.updateBoard(row,col);
+                GameFrame.controller.countScore();
+                GameRule.updateBoard(row,col,this.chessPiece.getType());
                 repaint();
+                if(GameFrame.LOCALMODE) GameFrame.controller.swapPlayer();
+                // GameFrame.controller.restartGame();
             }
-            else System.out.println("valid click");
+            else System.out.println("invalid click");
         }
-        
+        GameFrame.controller.checkWin();
     }
 
 
