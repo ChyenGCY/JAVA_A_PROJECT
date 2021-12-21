@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import System.Player;
 import view.GameFrame;
 
 public class Client {
@@ -21,7 +22,7 @@ public class Client {
     BufferedWriter bw;
     Socket s;
 
-    public Client(String iP) throws IOException {
+    public Client(String iP, Player player) throws IOException {
         this.s = new Socket(iP, 8888);
         Scanner sc = new Scanner(System.in);
 
@@ -38,7 +39,7 @@ public class Client {
         ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
         new Thread(new Client_listen(s, ois)).start();
-        new Thread(new Client_send(s, oos)).start();
+        new Thread(new Client_send(s, oos, player)).start();
         // while (true) {
         // String str = sc.nextLine();
         // bw.write(str);
@@ -86,17 +87,19 @@ class Client_listen implements Runnable {
 class Client_send implements Runnable {
     private Socket socket;
     private ObjectOutputStream oos;
+    private Player player;
 
-    Client_send(Socket socket, ObjectOutputStream oos) {
+    Client_send(Socket socket, ObjectOutputStream oos, Player player) {
         this.socket = socket;
         this.oos = oos;
+        this.player = player;
     }
 
     @Override
     public void run() {
         try {
             Scanner scanner = new Scanner(System.in);
-            GameFrame frame = new GameFrame(800, false, true, false, 0, false);
+            GameFrame frame = new GameFrame(800, false, true, false, 0, false, player);
             frame.setVisible(true);
             System.out.println(100);
             while (true) {

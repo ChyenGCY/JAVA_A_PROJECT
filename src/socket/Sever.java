@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import System.Player;
 import view.GameFrame;
 
 public class Sever {
@@ -19,7 +20,7 @@ public class Sever {
     BufferedWriter bw;
     Socket s;
 
-    public Sever() throws IOException {
+    public Sever(Player player) throws IOException {
         ServerSocket ss = new ServerSocket(8888);
         System.out.println("init server....");
         this.s = ss.accept();
@@ -34,7 +35,7 @@ public class Sever {
         bw.flush();
         // while (true){
         new Thread(new Server_listen(s)).start();
-        new Thread(new Server_send(s)).start();
+        new Thread(new Server_send(s, player)).start();
         // }
 
         // String str;
@@ -91,9 +92,11 @@ class Server_listen implements Runnable {
 
 class Server_send implements Runnable {
     private Socket socket;
+    private Player player;
 
-    Server_send(Socket socket) {
+    Server_send(Socket socket, Player player) {
         this.socket = socket;
+        this.player = player;
     }
 
     @Override
@@ -102,7 +105,7 @@ class Server_send implements Runnable {
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             Scanner scanner = new Scanner(System.in);
 
-            GameFrame frame = new GameFrame(800, false, true, false, 0, true);
+            GameFrame frame = new GameFrame(800, false, true, false, 0, true, player);
 
             frame.setVisible(true);
             System.out.println(999);
