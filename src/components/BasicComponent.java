@@ -3,6 +3,7 @@ package components;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 public abstract class BasicComponent extends JComponent {
     public BasicComponent() {
@@ -12,8 +13,41 @@ public abstract class BasicComponent extends JComponent {
                 super.mousePressed(e);
                 onMouseClicked();
             }
+
         });
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                onMouseEntered();
+            }
+
+        });
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                onMouseExited();
+            }
+
+        });
+
+        // this.addMouseMotionListener(new MouseAdapter() {
+        // @Override
+        // public void mouseMoved(MouseEvent e) {
+        // super.mouseMoved(e);
+        // onMouseMoved();
+        // }
+        // });
     }
+
+    // public abstract void onMouseMoved();
+
+    protected abstract void onMouseEntered();
+
+    protected abstract void onMouseExited();
 
     public abstract void onMouseClicked();
 }

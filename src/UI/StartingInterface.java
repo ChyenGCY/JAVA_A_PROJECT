@@ -1,6 +1,9 @@
 package UI;
 
 import javax.swing.*;
+
+import view.GameFrame;
+
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.*;

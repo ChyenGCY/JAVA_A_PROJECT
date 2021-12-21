@@ -2,6 +2,7 @@ package view;
 
 import controller.GameController;
 import controller.GameRule;
+import model.ChessPiece;
 
 import javax.swing.*;
 
@@ -17,10 +18,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class GameFrame extends JFrame implements KeyListener, MouseListener {
+public class GameFrame extends JFrame implements KeyListener, MouseMotionListener {
     public static GameController controller;
-    private ChessBoardPanel chessBoardPanel;
+    private static ChessBoardPanel chessBoardPanel;
     private StatusPanel statusPanel;
     public static boolean LOCALMODE;
     public static boolean ONLINEMODE;
@@ -29,6 +31,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener {
     public static boolean host;
     private GameRule gamerule;
     private EasyAI ai;
+    public static int cheating;
     // private static boolean AITime = false;
 
     public GameFrame(int frameSize, boolean LOCALMODE, boolean ONLINEMODE, boolean VSAIMODE, int difficulty,
@@ -55,8 +58,9 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener {
         GameFrame.VSAIMODE = VSAIMODE;
         GameFrame.difficulty = difficulty;
         GameFrame.host = host;
+        GameFrame.cheating = 0;
 
-        JButton restartBtn = new JButton("AI-GO");
+        JButton restartBtn = new JButton("Restart");
         restartBtn.setSize(120, 50);
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2,
                 (this.getHeight() + chessBoardPanel.getHeight()) / 2);
@@ -64,12 +68,11 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener {
         restartBtn.addKeyListener(this);
         restartBtn.addActionListener(e -> {
             controller.restartGame();
-            System.out.println("AI done.");
         });
 
         JButton loadGameBtn = new JButton("Load");
         loadGameBtn.setSize(120, 50);
-        loadGameBtn.setLocation(restartBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
+        loadGameBtn.setLocation(restartBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
         add(loadGameBtn);
         loadGameBtn.addActionListener(e -> {
             System.out.println("clicked Load Btn");
@@ -79,13 +82,25 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener {
 
         JButton saveGameBtn = new JButton("Save");
         saveGameBtn.setSize(120, 50);
-        saveGameBtn.setLocation(loadGameBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
+        saveGameBtn.setLocation(loadGameBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
         add(saveGameBtn);
         saveGameBtn.addKeyListener(this);
         saveGameBtn.addActionListener(e -> {
             System.out.println("clicked Save Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
             controller.writeDataToFile(filePath);
+        });
+
+        JButton AIBtn = new JButton("AI-GO");
+        AIBtn.setSize(120, 50);
+        AIBtn.setLocation(saveGameBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
+        add(AIBtn);
+        AIBtn.addKeyListener(this);
+        AIBtn.addActionListener(e -> {
+            if (VSAIMODE) {
+                controller.AIGame();
+                System.out.println("AI done.");
+            }
         });
 
         if (LOCALMODE) {
@@ -112,40 +127,8 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addKeyListener(this);
         this.requestFocusInWindow();
-        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
         System.out.println("frame set finish.");
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // System.out.println("qwe");
-        // dispose();
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -174,7 +157,30 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener {
             // Sever.getS;
             new modeInterface("");
         }
+        if (e.getKeyChar() == 'a') {
+            controller.setTurn(ChessPiece.WHITE.name());
+            cheating = 1;
+        }
+        if (e.getKeyChar() == 'd') {
+            controller.setTurn(ChessPiece.BLACK.name());
+            cheating = -1;
+        }
+        if (e.getKeyChar() == 's') {
+            controller.showTurn();
+            cheating = 0;
+        }
+    }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        // TODO Auto-generated method stub
+        // System.out.println(e.getX());
     }
 
 }

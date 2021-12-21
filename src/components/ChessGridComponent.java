@@ -3,9 +3,11 @@ package components;
 // import controller.GameController;
 import controller.GameRule;
 import model.*;
+import view.ChessBoardPanel;
 import view.GameFrame;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
@@ -13,6 +15,7 @@ public class ChessGridComponent extends BasicComponent {
     public static Color gridColor = new Color(255, 150, 50);
 
     private ChessPiece chessPiece;
+    private ChessDot possibleChess;
     private int row;
     private int col;
 
@@ -27,8 +30,9 @@ public class ChessGridComponent extends BasicComponent {
     public void onMouseClicked() {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
         // todo: complete mouse click method
-        if (GameFrame.controller.canClick(row, col)) {
-            if (this.chessPiece == null && GameRule.isAvailable(row, col)) {
+        if (GameFrame.cheating == 0) {
+            if (((this.chessPiece == null) || (this.chessPiece == ChessPiece.GRAY))
+                    && GameRule.isAvailable(row, col)) {
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
                 GameFrame.controller.countScore();
                 GameRule.updateBoard(row, col, this.chessPiece.getType());
@@ -37,12 +41,20 @@ public class ChessGridComponent extends BasicComponent {
                 GameFrame.controller.this_step[1] = row;
                 GameFrame.controller.this_step[2] = col;
                 GameFrame.controller.countScore();
-                GameFrame.controller.checkWin();
+                // GameFrame.controller.checkWin();
                 if (GameFrame.LOCALMODE)
                     GameFrame.controller.swapPlayer();
                 // GameFrame.controller.restartGame();
             } else
                 System.out.println("invalid click");
+        } else if (GameFrame.cheating == 1) {
+            this.chessPiece = ChessPiece.WHITE;
+            GameRule.updateBoard(row, col, this.chessPiece.getType());
+            GameFrame.controller.countScore();
+        } else if (GameFrame.cheating == -1) {
+            this.chessPiece = ChessPiece.BLACK;
+            GameRule.updateBoard(row, col, this.chessPiece.getType());
+            GameFrame.controller.countScore();
         }
         GameFrame.controller.checkWin();
     }
@@ -72,10 +84,41 @@ public class ChessGridComponent extends BasicComponent {
         }
     }
 
+    public void drawShit(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.drawRoundRect(11, 16, 10, 10, 5, 4);
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.printComponents(g);
         drawPiece(g);
+        if (GameRule.getAvailableMatrix()[row][col] != 0)
+            drawShit(g);
     }
 
+    public void mouseMoved(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        String s = "当前鼠标坐标:(" + x + ", " + y + ")";
+        System.out.println(s);
+    }
+
+    @Override
+    protected void onMouseEntered() {
+        // TODO Auto-generated method stub
+        if (((this.chessPiece == null) || (this.chessPiece == ChessPiece.GRAY)) && GameRule.isAvailable(row, col)) {
+            this.chessPiece = ChessPiece.GRAY;
+            repaint();
+        }
+    }
+
+    @Override
+    protected void onMouseExited() {
+        // TODO Auto-generated method stub
+        if (((this.chessPiece == null) || (this.chessPiece == ChessPiece.GRAY)) && GameRule.isAvailable(row, col)) {
+            this.chessPiece = null;
+            repaint();
+        }
+    }
 }

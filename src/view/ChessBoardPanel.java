@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class ChessBoardPanel extends JPanel {
     private final int CHESS_COUNT = 8;
-    private static ChessGridComponent[][] chessGrids;
+    protected static ChessGridComponent[][] chessGrids;
 
     public ChessBoardPanel(int width, int height) {
         this.setVisible(true);
@@ -22,8 +22,9 @@ public class ChessBoardPanel extends JPanel {
         ChessGridComponent.chessSize = (int) (ChessGridComponent.gridSize * 0.8);
         System.out.printf("width = %d height = %d gridSize = %d chessSize = %d\n",
                 width, height, ChessGridComponent.gridSize, ChessGridComponent.chessSize);
-        initialChessGrids();//return empty chessboard
-        initialGame();//add initial four chess
+        initialChessGrids();// return empty chessboard
+        initialGame();// add initial four chess
+        // MouseHandler handler = new MouseHandler();
 
         // repaint();
     }
@@ -34,7 +35,7 @@ public class ChessBoardPanel extends JPanel {
     public void initialChessGrids() {
         chessGrids = new ChessGridComponent[CHESS_COUNT][CHESS_COUNT];
 
-        //draw all chess grids
+        // draw all chess grids
         for (int i = 0; i < CHESS_COUNT; i++) {
             for (int j = 0; j < CHESS_COUNT; j++) {
                 ChessGridComponent gridComponent = new ChessGridComponent(i, j);
@@ -55,16 +56,20 @@ public class ChessBoardPanel extends JPanel {
         chessGrids[4][4].setChessPiece(ChessPiece.BLACK);
     }
 
-    public void redraw(int[][] board){
-        for (int i = 0;i<8;i++)
-            for(int j = 0;j<8;j++){
-                if(board[i][j]==1) chessGrids[i][j].setChessPiece(ChessPiece.WHITE);
-                if(board[i][j]==-1) chessGrids[i][j].setChessPiece(ChessPiece.BLACK);
+    public void redraw(int[][] board) {
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] == 1)
+                    chessGrids[i][j].setChessPiece(ChessPiece.WHITE);
+                if (board[i][j] == -1)
+                    chessGrids[i][j].setChessPiece(ChessPiece.BLACK);
+                if (board[i][j] == 0)
+                    chessGrids[i][j].setChessPiece(null);
             }
         repaint();
     }
 
-    public static ChessGridComponent[][] getChessGrids(){
+    public static ChessGridComponent[][] getChessGrids() {
         return chessGrids;
     }
 
@@ -76,27 +81,38 @@ public class ChessBoardPanel extends JPanel {
     }
 
     public boolean canClickGrid(int row, int col, ChessPiece currentPlayer) {
-        //todo: complete this method
+        // todo: complete this method
         return true;
     }
 
-    public void restartGame() {
-        
+    public void AIGame() {
+
         int[] next_step = GameFrame.controller.AI_DO();
-                // System.out.println(GameRule.getExpectMatrix());
-                // GameFrame.controller.swapPlayer();
-                GameRule.updateBoard(next_step[0],next_step[1],ChessPiece.WHITE.getType());
-                GameFrame.controller.countScore();
-                GameFrame.controller.checkWin();
-                repaint();
+        // System.out.println(GameRule.getExpectMatrix());
+        // GameFrame.controller.swapPlayer();
+        GameRule.updateBoard(next_step[0], next_step[1], ChessPiece.WHITE.getType());
+        GameFrame.controller.countScore();
+        GameFrame.controller.checkWin();
+        repaint();
     }
 
-    public void performOnline(int[] next_step){
-                // System.out.println(GameRule.getExpectMatrix());
-                // GameFrame.controller.swapPlayer();
-                GameRule.updateBoard(next_step[0],next_step[1],GameFrame.controller.getCurrentPlayer().getType()*-1);
-                GameFrame.controller.countScore();
-                GameFrame.controller.checkWin();
-                repaint();
+    public void performOnline(int[] next_step) {
+        // System.out.println(GameRule.getExpectMatrix());
+        // GameFrame.controller.swapPlayer();
+        GameRule.updateBoard(next_step[0], next_step[1], GameFrame.controller.getCurrentPlayer().getType() * -1);
+        GameFrame.controller.countScore();
+        GameFrame.controller.checkWin();
+        repaint();
+    }
+
+    public void restartGame() {
+        int[][] fresh_board = new int[8][8];
+        fresh_board[3][3] = -1;
+        fresh_board[4][4] = -1;
+        fresh_board[3][4] = 1;
+        fresh_board[4][3] = 1;
+        redraw(fresh_board);
+        GameFrame.controller.countScore();
+        repaint();
     }
 }

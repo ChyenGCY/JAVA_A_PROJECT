@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import AIPlayer.EasyAI;
-
+import UI.WinnerFrame;
 
 public class GameController {
-
 
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
@@ -34,7 +33,7 @@ public class GameController {
         this.this_step = new int[3];
     }
 
-    public GameRule getGameRule(){
+    public GameRule getGameRule() {
         return gameRule;
     }
 
@@ -45,34 +44,45 @@ public class GameController {
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
-    public int[] this_step(){
+    public void setTurn(String name) {
+        countScore();
+        statusPanel.setPlayerText(name);
+        statusPanel.setScoreText(blackScore, whiteScore);
+    }
+
+    public void showTurn() {
+        countScore();
+        statusPanel.setPlayerText(currentPlayer.name());
+        statusPanel.setScoreText(blackScore, whiteScore);
+    }
+
+    public int[] this_step() {
         int[] new_step = new int[3];
-        for (int i = 0 ;i<3;i++)
+        for (int i = 0; i < 3; i++)
             new_step[i] = this_step[i];
         this_step[0] = 0;
         return new_step;
     }
 
-    public int[] getThis_step(){
+    public int[] getThis_step() {
         return this_step;
     }
 
     public void countScore() {
         // //todo: modify the countScore method
         // if (currentPlayer == ChessPiece.BLACK) {
-        //     blackScore++;
+        // blackScore++;
         // } else {
-        //     whiteScore++;
+        // whiteScore++;
         // }
         int black_point = 0;
         int white_point = 0;
         int[][] current_board = ChessBoard.instance();
-        for (int i = 0;i<8;i++){
-            for (int j = 0;j<8;j++){
-                if (current_board[i][j]==1){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (current_board[i][j] == 1) {
                     white_point++;
-                }
-                else if(current_board[i][j]==-1){
+                } else if (current_board[i][j] == -1) {
                     black_point++;
                 }
             }
@@ -82,13 +92,13 @@ public class GameController {
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
-    public int[] AI_DO(){
+    public int[] AI_DO() {
         int[] step = new int[2];
         if (GameFrame.difficulty == 1)
             step = easyAI.AIStep();
         if (GameFrame.difficulty == 2)
             step = easyAI.diff_AIStep();
-        
+
         ChessBoardPanel.getChessGrids()[step[0]][step[1]].setChessPiece(easyAI.getChessPiece());
         return step;
     }
@@ -101,36 +111,35 @@ public class GameController {
         return gamePanel;
     }
 
-
     public void setGamePanel(ChessBoardPanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
-    public boolean checkWin(){
+    public boolean checkWin() {
         // int[][] chessboard = ChessBoard.instance();
-        for(int i = 0;i<8;i++)
-            for(int j = 0;j<8;j++){
-                if (GameRule.isAvailable(i, j)&&GameRule.isEmpty(i,j)){
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++) {
+                if (GameRule.isAvailable(i, j) && GameRule.isEmpty(i, j)) {
                     return false;
                 }
             }
-        System.out.print(checkWinner()+"win!");
+        new WinnerFrame(checkWinner());
+        System.out.print(checkWinner() + "win!");
         return true;
     }
 
     private String checkWinner() {
         countScore();
-        if (blackScore>whiteScore)
+        if (blackScore > whiteScore)
             return "BlackPlayer";
-        if (blackScore<whiteScore)
+        if (blackScore < whiteScore)
             return "WhitePlayer";
         else
             return "Both";
     }
 
-
     public void readFileData(String fileName) {
-        //todo: read date from file
+        // todo: read date from file
         List<String> fileData = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(fileName);
@@ -147,7 +156,7 @@ public class GameController {
     }
 
     public void writeDataToFile(String fileName) {
-        //todo: write data into file
+        // todo: write data into file
     }
 
     public boolean canClick(int row, int col) {
@@ -164,8 +173,12 @@ public class GameController {
 
     public void performOnline(String str) {
         int[] step = new int[2];
-        step[0] = Integer.valueOf(str.substring(4,5));
-        step[1] = Integer.valueOf(str.substring(7,8));
+        step[0] = Integer.valueOf(str.substring(4, 5));
+        step[1] = Integer.valueOf(str.substring(7, 8));
         gamePanel.performOnline(step);
+    }
+
+    public void AIGame() {
+        gamePanel.AIGame();
     }
 }
