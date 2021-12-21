@@ -3,9 +3,3 @@ xlk nt
 cy xts
 gcy nb
 lj 123
-slj sb
-xlk nt
-cy xts
-gcy nb
-lj 123
-sb 123

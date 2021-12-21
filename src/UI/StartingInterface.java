@@ -26,8 +26,8 @@ public class StartingInterface extends JFrame implements KeyListener {
         // add(l1);
         // l1.setFont(new Font("楷体", Font.BOLD, 30));
         // l1.setBounds(180, 100, 600, 100);
-        ImageIcon start = new ImageIcon("/src/Picture/start.jpg");// 150,160
-        ImageIcon bg = new ImageIcon("/src/Picture/startBg.gif");// 386,800
+        ImageIcon start = new ImageIcon("./Picture/start.jpg");// 150,160
+        ImageIcon bg = new ImageIcon("./Picture/startBg.gif");// 386,800
 
         JLabel l2 = new JLabel("请创建一个您的账户:");
         add(l2);
