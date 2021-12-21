@@ -7,6 +7,7 @@ import model.ChessPiece;
 import javax.swing.*;
 
 import AIPlayer.EasyAI;
+import System.Player;
 import UI.modeInterface;
 
 import java.awt.*;
@@ -21,6 +22,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class GameFrame extends JFrame implements KeyListener, MouseMotionListener {
+    public Player player;
     public static GameController controller;
     private static ChessBoardPanel chessBoardPanel;
     private StatusPanel statusPanel;
@@ -35,8 +37,8 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
     // private static boolean AITime = false;
 
     public GameFrame(int frameSize, boolean LOCALMODE, boolean ONLINEMODE, boolean VSAIMODE, int difficulty,
-            boolean host) {
-
+            boolean host, Player player) {
+        this.player = player;
         this.setTitle("2021F CS102A Project Reversi");
         this.setLayout(null);
 
@@ -118,8 +120,8 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         if (VSAIMODE) {
             controller = new GameController(chessBoardPanel, statusPanel);
             controller.setGamePanel(chessBoardPanel);
-            this.addKeyListener(this);
-            this.requestFocusInWindow();
+            // this.addKeyListener(this);
+            // this.requestFocusInWindow();
         }
         this.add(chessBoardPanel);
         this.add(statusPanel);
@@ -155,7 +157,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
             dispose();
             // if (ONLINEMODE)
             // Sever.getS;
-            new modeInterface("");
+            new modeInterface(player);
         }
         if (e.getKeyChar() == 'a') {
             controller.setTurn(ChessPiece.WHITE.name());

@@ -2,6 +2,8 @@ package UI;
 
 import javax.swing.*;
 
+import System.GameSystem;
+import System.Player;
 import view.GameFrame;
 
 import java.awt.*;
@@ -12,11 +14,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class modeInterface extends JFrame implements KeyListener {
-    public String account;
+    public Player player;
 
-    public modeInterface(String account) {
+    public modeInterface(Player player) {
         super("模式选择界面");
-        this.account = account;
+        this.player = player;
         setSize(800, 800);
 
         JButton b1 = new JButton("单人模式");
@@ -30,7 +32,7 @@ public class modeInterface extends JFrame implements KeyListener {
         add(l1);
         l1.setFont(new Font("宋体", Font.BOLD, 30));
         ImageIcon icon = new ImageIcon();
-        JLabel l3 = new JLabel("HELLO," + account);
+        JLabel l3 = new JLabel("HELLO," + player);
         add(l3);
         JLabel l2 = new JLabel(icon);
         add(l2);
@@ -45,13 +47,13 @@ public class modeInterface extends JFrame implements KeyListener {
         // });
         b1.addActionListener(e -> {
             dispose();
-            new DifficultyChooseInterface(this.account);
+            new DifficultyChooseInterface(this.player);
         });
 
         b2.addActionListener(e -> {
             dispose();
             try {
-                new ServerOrClientInterface(this.account);
+                new ServerOrClientInterface(this.player);
             } catch (UnknownHostException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -61,7 +63,7 @@ public class modeInterface extends JFrame implements KeyListener {
         b3.addActionListener(e -> {
             dispose();// 关掉当前窗口
             // new Simple(this.account);//创建一个新窗口
-            GameFrame mainFrame = new GameFrame(800, true, false, false, 0, false);
+            GameFrame mainFrame = new GameFrame(800, true, false, false, 0, false, player);
             mainFrame.setVisible(true);
         });
 
@@ -93,7 +95,7 @@ public class modeInterface extends JFrame implements KeyListener {
         System.out.println(e.getKeyChar());
         if (e.getKeyCode() == 27) {
             dispose();
-            new StartingInterface();
+            new StartingInterface(new GameSystem());
         }
     }
 

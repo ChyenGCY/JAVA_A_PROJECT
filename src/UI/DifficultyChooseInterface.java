@@ -2,6 +2,8 @@ package UI;
 
 import javax.swing.*;
 
+import System.GameSystem;
+import System.Player;
 import view.GameFrame;
 
 import java.awt.*;
@@ -9,10 +11,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class DifficultyChooseInterface extends JFrame implements KeyListener {
-    public String account;
+    public Player player;
 
-    public DifficultyChooseInterface(String account) {
+    public DifficultyChooseInterface(Player player) {
         super("单人模式");
+        this.player = player;
         setLayout(null);
         setVisible(true);
         setLocation(400, 200);
@@ -35,14 +38,14 @@ public class DifficultyChooseInterface extends JFrame implements KeyListener {
         b1.addActionListener(e -> {
             dispose();// 关掉当前窗口
             // new Simple(this.account);//创建一个新窗口
-            GameFrame mainFrame = new GameFrame(800, false, false, true, 1, false);
+            GameFrame mainFrame = new GameFrame(800, false, false, true, 1, false, player);
             mainFrame.setVisible(true);
         });
 
         b2.addActionListener(e -> {
             dispose();// 关掉当前窗口
             // new Simple(this.account);//创建一个新窗口
-            GameFrame mainFrame = new GameFrame(800, false, false, true, 2, false);
+            GameFrame mainFrame = new GameFrame(800, false, false, true, 2, false, player);
             mainFrame.setVisible(true);
         });
     }
@@ -59,7 +62,7 @@ public class DifficultyChooseInterface extends JFrame implements KeyListener {
         System.out.println(e.getKeyChar());
         if (e.getKeyCode() == 27) {
             dispose();
-            new modeInterface(account);
+            new modeInterface(player);
         }
     }
 

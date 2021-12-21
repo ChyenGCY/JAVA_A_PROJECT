@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import System.Player;
 import socket.Client;
 import socket.Sever;
 
@@ -16,10 +17,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class ServerOrClientInterface extends JFrame implements KeyListener {
-    public String account;
+    public Player player;
 
-    public ServerOrClientInterface(String account) throws UnknownHostException {
+    public ServerOrClientInterface(Player player) throws UnknownHostException {
         super("Server Or Client");
+        this.player = player;
         setSize(640, 640);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(300, 200);
@@ -34,7 +36,7 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
         serverButton.setBounds(220, 100, 200, 40);
         clientButton.setBounds(220, 300, 200, 40);
 
-        JLabel IPLabel = new JLabel(account);
+        JLabel IPLabel = new JLabel();
         add(IPLabel);
         IPLabel.setText("Your IP :" + InetAddress.getLocalHost());
         IPLabel.setBounds(250, 250, 400, 200);
@@ -86,7 +88,7 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
         System.out.println(e.getKeyChar());
         if (e.getKeyCode() == 27) {
             dispose();
-            new modeInterface(account);
+            new modeInterface(player);
         }
     }
 

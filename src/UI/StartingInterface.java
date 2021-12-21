@@ -2,6 +2,8 @@ package UI;
 
 import javax.swing.*;
 
+import System.GameSystem;
+import System.Player;
 import view.GameFrame;
 
 import java.applet.Applet;
@@ -13,11 +15,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class StartingInterface extends JFrame implements KeyListener {
+    GameSystem gameSystem;
+    Player player;
 
-    public String account;
-
-    public StartingInterface() {
+    public StartingInterface(GameSystem gameSystem) {
         super("开始界面");
+        gameSystem.loadFromFIle();
+        this.gameSystem = gameSystem;
         JLabel l1 = new JLabel("欢迎来到杰哥快乐棋");
         add(l1);
         l1.setFont(new Font("楷体", Font.BOLD, 30));
@@ -43,9 +47,23 @@ public class StartingInterface extends JFrame implements KeyListener {
         setVisible(true);
 
         b1.addActionListener(e -> {
-            account = accountText.getText();
+            String account_name = accountText.getText();
+            // System.out.println(account_name);
+            String password = JOptionPane.showInputDialog(this, "input the password");
+            if (!gameSystem.checkPlayer(account_name)) {
+                player = new Player(account_name, password);
+                gameSystem.addPlayer(player);
+                gameSystem.saveToFiles();
+                new JFrame("account created");
+            } else {
+                while (!gameSystem.findPlayer(account_name).getPassWord().equals(password)) {
+                    password = JOptionPane.showInputDialog(this, "wrong password,input again");
+                }
+                player = gameSystem.findPlayer(account_name);
+                gameSystem.saveToFiles();
+            }
             dispose();
-            new modeInterface(account);
+            new modeInterface(player);
         });
 
         // URL cb;
