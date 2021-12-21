@@ -7,7 +7,6 @@ import view.GameFrame;
 
 import java.awt.*;
 
-
 public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
     public static int gridSize;
@@ -16,7 +15,7 @@ public class ChessGridComponent extends BasicComponent {
     private ChessPiece chessPiece;
     private int row;
     private int col;
-     
+
     public ChessGridComponent(int row, int col) {
         this.setSize(gridSize, gridSize);
 
@@ -27,21 +26,26 @@ public class ChessGridComponent extends BasicComponent {
     @Override
     public void onMouseClicked() {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
-        //todo: complete mouse click method
+        // todo: complete mouse click method
         if (GameFrame.controller.canClick(row, col)) {
             if (this.chessPiece == null && GameRule.isAvailable(row, col)) {
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
                 GameFrame.controller.countScore();
-                GameRule.updateBoard(row,col,this.chessPiece.getType());
+                GameRule.updateBoard(row, col, this.chessPiece.getType());
                 repaint();
-                if(GameFrame.LOCALMODE) GameFrame.controller.swapPlayer();
+                GameFrame.controller.this_step[0] = 1;
+                GameFrame.controller.this_step[1] = row;
+                GameFrame.controller.this_step[2] = col;
+                GameFrame.controller.countScore();
+                GameFrame.controller.checkWin();
+                if (GameFrame.LOCALMODE)
+                    GameFrame.controller.swapPlayer();
                 // GameFrame.controller.restartGame();
-            }
-            else System.out.println("invalid click");
+            } else
+                System.out.println("invalid click");
         }
         GameFrame.controller.checkWin();
     }
-
 
     public ChessPiece getChessPiece() {
         return chessPiece;
@@ -68,12 +72,10 @@ public class ChessGridComponent extends BasicComponent {
         }
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
         super.printComponents(g);
         drawPiece(g);
     }
-
 
 }

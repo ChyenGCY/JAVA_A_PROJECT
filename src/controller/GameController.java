@@ -21,6 +21,7 @@ public class GameController {
     private int whiteScore;
     private GameRule gameRule;
     private EasyAI easyAI;
+    public int[] this_step;
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
         this.gamePanel = gamePanel;
@@ -30,6 +31,7 @@ public class GameController {
         whiteScore = 2;
         gameRule = new GameRule(gamePanel);
         this.easyAI = new EasyAI(ChessPiece.WHITE);
+        this.this_step = new int[3];
     }
 
     public GameRule getGameRule(){
@@ -43,6 +45,17 @@ public class GameController {
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
+    public int[] this_step(){
+        int[] new_step = new int[3];
+        for (int i = 0 ;i<3;i++)
+            new_step[i] = this_step[i];
+        this_step[0] = 0;
+        return new_step;
+    }
+
+    public int[] getThis_step(){
+        return this_step;
+    }
 
     public void countScore() {
         // //todo: modify the countScore method
@@ -143,5 +156,16 @@ public class GameController {
 
     public void restartGame() {
         gamePanel.restartGame();
+    }
+
+    public int getStep() {
+        return 1;
+    }
+
+    public void performOnline(String str) {
+        int[] step = new int[2];
+        step[0] = Integer.valueOf(str.substring(4,5));
+        step[1] = Integer.valueOf(str.substring(7,8));
+        gamePanel.performOnline(step);
     }
 }

@@ -90,4 +90,13 @@ public class ChessBoardPanel extends JPanel {
                 GameFrame.controller.checkWin();
                 repaint();
     }
+
+    public void performOnline(int[] next_step){
+                // System.out.println(GameRule.getExpectMatrix());
+                // GameFrame.controller.swapPlayer();
+                GameRule.updateBoard(next_step[0],next_step[1],GameFrame.controller.getCurrentPlayer().getType()*-1);
+                GameFrame.controller.countScore();
+                GameFrame.controller.checkWin();
+                repaint();
+    }
 }
