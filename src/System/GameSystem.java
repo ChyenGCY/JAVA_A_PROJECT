@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameSystem {
     private static ArrayList<Player> playerList = new ArrayList<>();
@@ -103,5 +104,16 @@ public class GameSystem {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<String> getRankList() {
+        ArrayList<String> rank_list = new ArrayList<>();
+        rank_list.add(String.format("%5s   %5s\n", "Name", "WinRate"));
+        ArrayList<Player> newPlaylist = playerList;
+        Collections.sort(newPlaylist, Player.winRateComparator);
+        for (Player player : newPlaylist) {
+            rank_list.add(String.format("%5s   %5.2f %%", player.getName(), player.getwinRate() * 100));
+        }
+        return rank_list;
     }
 }

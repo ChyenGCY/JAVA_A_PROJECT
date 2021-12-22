@@ -1,6 +1,7 @@
 package System;
 
 import java.io.File;
+import java.util.Comparator;
 
 public class Player {
     private int pid;
@@ -73,10 +74,24 @@ public class Player {
     }
 
     public float getwinRate() {
+        if (gameparticipated == 0.0)
+            return 0;
         return gamewon / gameparticipated;
     }
 
     public String toString() {
         return String.format("%s %s %.0f %.0f\n", name, passWord, gameparticipated, gamewon);
     }
+
+    public static Comparator<Player> winRateComparator = new Comparator<Player>() {
+
+        public int compare(Player p1, Player p2) {
+            float winRate1 = p1.getwinRate();
+            float winRate2 = p2.getwinRate();
+
+            return winRate1 - winRate2 >= 0 ? -1 : 1;
+
+            // return FlightName2.compareTo(FlightName1);
+        }
+    };
 }
