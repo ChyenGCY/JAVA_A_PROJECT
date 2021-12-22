@@ -1,9 +1,9 @@
 package components;
 
-import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+
+import javax.swing.JComponent;
 
 public abstract class BasicComponent extends JComponent {
     public BasicComponent() {

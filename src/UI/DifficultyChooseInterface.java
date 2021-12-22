@@ -1,14 +1,15 @@
 package UI;
 
-import javax.swing.*;
-
-import System.GameSystem;
-import System.Player;
-import view.GameFrame;
-
-import java.awt.*;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import System.Player;
+import view.GameFrame;
 
 public class DifficultyChooseInterface extends JFrame implements KeyListener {
     public Player player;

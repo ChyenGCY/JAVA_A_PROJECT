@@ -1,13 +1,13 @@
 package components;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+
 // import controller.GameController;
 import controller.GameRule;
-import model.*;
-import view.ChessBoardPanel;
+import model.ChessPiece;
 import view.GameFrame;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
@@ -15,7 +15,6 @@ public class ChessGridComponent extends BasicComponent {
     public static Color gridColor = new Color(255, 150, 50);
 
     private ChessPiece chessPiece;
-    private ChessDot possibleChess;
     private int row;
     private int col;
 
@@ -40,6 +39,8 @@ public class ChessGridComponent extends BasicComponent {
                 GameFrame.controller.this_step[0] = 1;
                 GameFrame.controller.this_step[1] = row;
                 GameFrame.controller.this_step[2] = col;
+                String step = GameFrame.controller.getCurrentPlayer().getType() + " " + row + " " + col;
+                GameFrame.controller.getStep().addstep(step);
                 GameFrame.controller.countScore();
                 // GameFrame.controller.checkWin();
                 if (GameFrame.LOCALMODE)
@@ -86,7 +87,7 @@ public class ChessGridComponent extends BasicComponent {
 
     public void drawShit(Graphics g) {
         g.setColor(Color.GREEN);
-        g.drawRoundRect(11, 16, 10, 10, 5, 4);
+        g.fillOval((gridSize) / 2 - 4, (gridSize) / 2 - 4, chessSize / 5, chessSize / 5);
     }
 
     @Override

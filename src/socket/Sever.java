@@ -7,10 +7,10 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import System.Player;
 import view.GameFrame;
@@ -21,10 +21,12 @@ public class Sever {
     Socket s;
 
     public Sever(Player player) throws IOException {
-        ServerSocket ss = new ServerSocket(8888);
-        System.out.println("init server....");
-        this.s = ss.accept();
-        System.out.println("client: " + s.getInetAddress().getLocalHost() + " connected");
+        try (ServerSocket ss = new ServerSocket(8888)) {
+            System.out.println("init server....");
+            this.s = ss.accept();
+        }
+        s.getInetAddress();
+        System.out.println("client: " + InetAddress.getLocalHost() + " connected");
 
         this.br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
@@ -103,8 +105,6 @@ class Server_send implements Runnable {
     public void run() {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            Scanner scanner = new Scanner(System.in);
-
             GameFrame frame = new GameFrame(800, false, true, false, 0, true, player);
 
             frame.setVisible(true);

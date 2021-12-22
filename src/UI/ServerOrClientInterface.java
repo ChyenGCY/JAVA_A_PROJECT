@@ -51,7 +51,7 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
             // e2.printStackTrace();
             // }
             try {
-                Sever socket = new Sever(player);
+                new Sever(player);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -68,7 +68,7 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
             // e2.printStackTrace();
             // }
             try {
-                Client clent = new Client(IP, player);
+                new Client(IP, player);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

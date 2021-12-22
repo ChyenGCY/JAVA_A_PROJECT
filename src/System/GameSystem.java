@@ -7,8 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import UI.StartingInterface;
-
 public class GameSystem {
     private static ArrayList<Player> playerList = new ArrayList<>();
     public static GameSystem gameSystem;
@@ -30,14 +28,14 @@ public class GameSystem {
             while ((line = bufferedReader.readLine()) != null) {
                 fileData.add(line);
             }
-            fileData.forEach(System.out::println);
+            // fileData.forEach(System.out::println);
             bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         for (String str : fileData) {
             String[] player_str = str.trim().split(" ");
-            Player player = new Player(player_str[0], player_str[1]);
+            Player player = new Player(player_str[0], player_str[1], player_str[2], player_str[3]);
             playerList.add(player);
         }
     }
@@ -94,7 +92,7 @@ public class GameSystem {
         return findPlayer(pid).getwinRate();
     }
 
-    public void saveToFiles() {
+    public static void saveToFiles() {
         try {
             FileWriter fileWriter = new FileWriter("savings/gameSystem.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);

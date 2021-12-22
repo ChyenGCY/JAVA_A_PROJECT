@@ -10,9 +10,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import System.Player;
 import view.GameFrame;
@@ -24,8 +22,6 @@ public class Client {
 
     public Client(String iP, Player player) throws IOException {
         this.s = new Socket(iP, 8888);
-        Scanner sc = new Scanner(System.in);
-
         InputStream is = s.getInputStream();
         OutputStream os = s.getOutputStream();
 
@@ -60,11 +56,9 @@ public class Client {
 }
 
 class Client_listen implements Runnable {
-    private Socket socket;
     private ObjectInputStream ois;
 
     Client_listen(Socket socket, ObjectInputStream ois) {
-        this.socket = socket;
         this.ois = ois;
     }
 
@@ -76,7 +70,7 @@ class Client_listen implements Runnable {
                 System.out.println(str);
                 GameFrame.controller.performOnline(str);
                 GameFrame.controller.countScore();
-                GameFrame.controller.checkWin();
+                // GameFrame.controller.checkWin();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,7 +92,6 @@ class Client_send implements Runnable {
     @Override
     public void run() {
         try {
-            Scanner scanner = new Scanner(System.in);
             GameFrame frame = new GameFrame(800, false, true, false, 0, false, player);
             frame.setVisible(true);
             System.out.println(100);

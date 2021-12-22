@@ -1,15 +1,24 @@
 package controller;
 
-import model.ChessPiece;
-import view.*;
-import controller.*;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import AIPlayer.EasyAI;
+import System.GameSystem;
+import System.Player;
+import System.Step;
 import UI.WinnerFrame;
+import model.ChessPiece;
+import view.ChessBoardPanel;
+import view.GameFrame;
+import view.StatusPanel;
 
 public class GameController {
 
@@ -21,8 +30,10 @@ public class GameController {
     private GameRule gameRule;
     private EasyAI easyAI;
     public int[] this_step;
+    private Step step;
+    private Player player;
 
-    public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
+    public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel, Player player) {
         this.gamePanel = gamePanel;
         this.statusPanel = statusPanel;
         this.currentPlayer = ChessPiece.BLACK;
@@ -31,6 +42,12 @@ public class GameController {
         gameRule = new GameRule(gamePanel);
         this.easyAI = new EasyAI(ChessPiece.WHITE);
         this.this_step = new int[3];
+        this.step = new Step();
+        this.player = player;
+    }
+
+    public Step getStep() {
+        return step;
     }
 
     public GameRule getGameRule() {
@@ -120,9 +137,26 @@ public class GameController {
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
                 if (GameRule.isAvailable(i, j) && GameRule.isEmpty(i, j)) {
+                    GameSystem.saveToFiles();
                     return false;
                 }
             }
+        if (GameFrame.VSAIMODE) {
+            player.winGame();
+            GameSystem.saveToFiles();
+        }
+        if (GameFrame.ONLINEMODE) {
+            if (GameFrame.host && checkWinner().equals("BlackPlayer")) {
+
+                player.winGame();
+                GameSystem.saveToFiles();
+            }
+            if (!GameFrame.host && checkWinner().equals("WhitePlayer")) {
+
+                player.winGame();
+                GameSystem.saveToFiles();
+            }
+        }
         new WinnerFrame(checkWinner());
         System.out.print(checkWinner() + "win!");
         return true;
@@ -138,25 +172,54 @@ public class GameController {
             return "Both";
     }
 
-    public void readFileData(String fileName) {
+    public void readFileData(File file) {
         // todo: read date from file
         List<String> fileData = new ArrayList<>();
         try {
-            FileReader fileReader = new FileReader(fileName);
+            FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 fileData.add(line);
             }
-            fileData.forEach(System.out::println);
+            // fileData.forEach(System.out::println);
             bufferedReader.close();
+            reloadSteps(fileData);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeDataToFile(String fileName) {
+    private void reloadSteps(List<String> fileData) {
+        restartGame();
+        step = new Step();
+        for (String str : fileData) {
+            String[] step = str.trim().split(" ");
+            int last_player = Integer.parseInt(step[0]);
+            int x = Integer.parseInt(step[1]);
+            int y = Integer.parseInt(step[2]);
+            GameRule.updateBoard(x, y, last_player);
+        }
+    }
+
+    public void writeDataToFile() throws IOException {
         // todo: write data into file
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH_mm_ss z");
+        Date date = new Date(System.currentTimeMillis());
+        String dir = "./savings/" + player.getName() + "/step_file" + formatter.format(date) + ".txt";
+        File file = new File(dir);
+        File file1 = new File("./savings/" + player.getName());
+        if (!file1.exists())
+            file1.mkdirs();
+        // file.mkdirs();
+        if (!file.exists())
+            file.createNewFile();
+        FileWriter writer = new FileWriter(file);
+        for (String str : step.getSteps()) {
+            writer.write(str + "\n");
+            writer.flush();
+        }
+        writer.close();
     }
 
     public boolean canClick(int row, int col) {
@@ -165,10 +228,6 @@ public class GameController {
 
     public void restartGame() {
         gamePanel.restartGame();
-    }
-
-    public int getStep() {
-        return 1;
     }
 
     public void performOnline(String str) {

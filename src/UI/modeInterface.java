@@ -1,17 +1,18 @@
 package UI;
 
-import javax.swing.*;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.net.UnknownHostException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import System.GameSystem;
 import System.Player;
 import view.GameFrame;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.UnknownHostException;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class modeInterface extends JFrame implements KeyListener {
     public Player player;
@@ -32,7 +33,7 @@ public class modeInterface extends JFrame implements KeyListener {
         add(l1);
         l1.setFont(new Font("宋体", Font.BOLD, 30));
         ImageIcon icon = new ImageIcon();
-        JLabel l3 = new JLabel("HELLO," + player);
+        JLabel l3 = new JLabel("HELLO," + player.getName());
         add(l3);
         JLabel l2 = new JLabel(icon);
         add(l2);

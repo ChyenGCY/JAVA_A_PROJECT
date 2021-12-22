@@ -1,18 +1,19 @@
 package UI;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import System.GameSystem;
 import System.Player;
-import view.GameFrame;
-
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.awt.*;
-import java.io.File;
-import java.net.URL;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class StartingInterface extends JFrame implements KeyListener {
     GameSystem gameSystem;
@@ -58,16 +59,16 @@ public class StartingInterface extends JFrame implements KeyListener {
             // System.out.println(account_name);
             String password = JOptionPane.showInputDialog(this, "input the password");
             if (!gameSystem.checkPlayer(account_name)) {
-                player = new Player(account_name, password);
+                player = new Player(account_name, password, "0", "0");
                 gameSystem.addPlayer(player);
-                gameSystem.saveToFiles();
+                GameSystem.saveToFiles();
                 new JFrame("account created");
             } else {
                 while (!gameSystem.findPlayer(account_name).getPassWord().equals(password)) {
                     password = JOptionPane.showInputDialog(this, "wrong password,input again");
                 }
                 player = gameSystem.findPlayer(account_name);
-                gameSystem.saveToFiles();
+                GameSystem.saveToFiles();
             }
             dispose();
             new modeInterface(player);

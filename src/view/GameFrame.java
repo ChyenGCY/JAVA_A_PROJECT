@@ -1,25 +1,23 @@
 package view;
 
-import controller.GameController;
-import controller.GameRule;
-import model.ChessPiece;
-
-import javax.swing.*;
-
-import AIPlayer.EasyAI;
-import System.Player;
-import UI.modeInterface;
-
-import java.awt.*;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
+import System.GameSystem;
+import System.Player;
+import UI.modeInterface;
+import controller.GameController;
+import model.ChessPiece;
 
 public class GameFrame extends JFrame implements KeyListener, MouseMotionListener {
     public Player player;
@@ -31,18 +29,19 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
     public static boolean VSAIMODE;
     public static int difficulty;
     public static boolean host;
-    private GameRule gamerule;
-    private EasyAI ai;
     public static int cheating;
     // private static boolean AITime = false;
 
     public GameFrame(int frameSize, boolean LOCALMODE, boolean ONLINEMODE, boolean VSAIMODE, int difficulty,
             boolean host, Player player) {
+
         this.player = player;
+        if (!LOCALMODE)
+            player.participateGame();
+        GameSystem.saveToFiles();
         this.setTitle("2021F CS102A Project Reversi");
         this.setLayout(null);
 
-        // 获取窗口边框的长度，将这些值加到主窗口大小上，这能使窗口大小和预期相符
         Insets inset = this.getInsets();
         this.setSize(frameSize + inset.left + inset.right, frameSize + inset.top + inset.bottom);
 
@@ -69,6 +68,9 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         add(restartBtn);
         restartBtn.addKeyListener(this);
         restartBtn.addActionListener(e -> {
+            if (!LOCALMODE)
+                player.participateGame();
+            GameSystem.saveToFiles();
             controller.restartGame();
         });
 
@@ -78,8 +80,12 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         add(loadGameBtn);
         loadGameBtn.addActionListener(e -> {
             System.out.println("clicked Load Btn");
-            String filePath = JOptionPane.showInputDialog(this, "input the path here");
-            controller.readFileData(filePath);
+            JFrame frame = new JFrame();
+            JFileChooser chooser = new JFileChooser("./savings/" + player.getName());
+            System.out.println(chooser.showOpenDialog(frame));
+            File file = chooser.getSelectedFile();
+            controller.readFileData(file);
+            this.requestFocusInWindow();
         });
 
         JButton saveGameBtn = new JButton("Save");
@@ -89,8 +95,12 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         saveGameBtn.addKeyListener(this);
         saveGameBtn.addActionListener(e -> {
             System.out.println("clicked Save Btn");
-            String filePath = JOptionPane.showInputDialog(this, "input the path here");
-            controller.writeDataToFile(filePath);
+            try {
+                controller.writeDataToFile();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         });
 
         JButton AIBtn = new JButton("AI-GO");
@@ -106,19 +116,19 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         });
 
         if (LOCALMODE) {
-            controller = new GameController(chessBoardPanel, statusPanel);
+            controller = new GameController(chessBoardPanel, statusPanel, player);
             controller.setGamePanel(chessBoardPanel);
         }
 
         if (ONLINEMODE) {
-            controller = new GameController(chessBoardPanel, statusPanel);
+            controller = new GameController(chessBoardPanel, statusPanel, player);
             controller.setGamePanel(chessBoardPanel);
             if (!host)
                 controller.swapPlayer();
         }
 
         if (VSAIMODE) {
-            controller = new GameController(chessBoardPanel, statusPanel);
+            controller = new GameController(chessBoardPanel, statusPanel, player);
             controller.setGamePanel(chessBoardPanel);
             // this.addKeyListener(this);
             // this.requestFocusInWindow();
