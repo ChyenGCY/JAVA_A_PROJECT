@@ -114,8 +114,9 @@ public class GameController {
         if (GameFrame.difficulty == 1)
             step = easyAI.AIStep();
         if (GameFrame.difficulty == 2)
+            step = easyAI.middle_AIStep();
+        if (GameFrame.difficulty == 3)
             step = easyAI.diff_AIStep();
-
         ChessBoardPanel.getChessGrids()[step[0]][step[1]].setChessPiece(easyAI.getChessPiece());
         return step;
     }

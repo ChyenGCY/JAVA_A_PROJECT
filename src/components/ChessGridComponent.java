@@ -3,6 +3,12 @@ package components;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.awt.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 // import controller.GameController;
 import controller.GameRule;
@@ -76,12 +82,20 @@ public class ChessGridComponent extends BasicComponent {
         return col;
     }
 
-    public void drawPiece(Graphics g) {
-        g.setColor(gridColor);
-        g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
+    public void drawPiece(Graphics g) throws IOException {
+        g.setColor(Color.BLACK);
+        g.drawRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
+        Image whitechess = ImageIO.read(new File("./Picture/whitechess.png"));
+        Image blackchess = ImageIO.read(new File("./Picture/blackchess.png"));
+        // System.out.println(this.getWidth() - 2);
+        // System.out.println(this.getHeight() - 2);
         if (this.chessPiece != null) {
             g.setColor(chessPiece.getColor());
             g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
+            if (this.chessPiece == ChessPiece.BLACK)
+                g.drawImage(blackchess, 0, 0, 68, 68, null);
+            if (this.chessPiece == ChessPiece.WHITE)
+                g.drawImage(whitechess, 0, 0, 68, 68, null);
         }
     }
 
@@ -93,7 +107,12 @@ public class ChessGridComponent extends BasicComponent {
     @Override
     public void paintComponent(Graphics g) {
         super.printComponents(g);
-        drawPiece(g);
+        try {
+            drawPiece(g);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         if (GameRule.getAvailableMatrix()[row][col] != 0)
             drawShit(g);
     }

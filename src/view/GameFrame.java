@@ -4,13 +4,17 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.Color;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.awt.Font;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 import System.GameSystem;
@@ -35,6 +39,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
     public GameFrame(int frameSize, boolean LOCALMODE, boolean ONLINEMODE, boolean VSAIMODE, int difficulty,
             boolean host, Player player) {
 
+        ImageIcon yun = new ImageIcon("./Picture/yun.JPG");
         this.player = player;
         if (!LOCALMODE)
             player.participateGame();
@@ -53,6 +58,8 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
 
         statusPanel = new StatusPanel((int) (this.getWidth() * 0.8), (int) (this.getHeight() * 0.1));
         statusPanel.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, 0);
+        statusPanel.setBackground(null);
+        statusPanel.setOpaque(false);
 
         GameFrame.LOCALMODE = LOCALMODE;
         GameFrame.ONLINEMODE = ONLINEMODE;
@@ -61,11 +68,14 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         GameFrame.host = host;
         GameFrame.cheating = 0;
 
+        Font f = new Font("宋体", Font.BOLD, 16);
+
         JButton restartBtn = new JButton("Restart");
         restartBtn.setSize(120, 50);
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2,
                 (this.getHeight() + chessBoardPanel.getHeight()) / 2);
         add(restartBtn);
+        restartBtn.setForeground(Color.WHITE);
         restartBtn.addKeyListener(this);
         restartBtn.addActionListener(e -> {
             if (!LOCALMODE)
@@ -73,11 +83,15 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
             GameSystem.saveToFiles();
             controller.restartGame();
         });
+        restartBtn.setBackground(null);
+        restartBtn.setOpaque(false);
+        restartBtn.setContentAreaFilled(false);
 
         JButton loadGameBtn = new JButton("Load");
         loadGameBtn.setSize(120, 50);
         loadGameBtn.setLocation(restartBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
         add(loadGameBtn);
+        loadGameBtn.setForeground(Color.WHITE);
         loadGameBtn.addActionListener(e -> {
             System.out.println("clicked Load Btn");
             JFrame frame = new JFrame();
@@ -87,11 +101,15 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
             controller.readFileData(file);
             this.requestFocusInWindow();
         });
+        loadGameBtn.setBackground(null);
+        loadGameBtn.setOpaque(false);
+        loadGameBtn.setContentAreaFilled(false);
 
         JButton saveGameBtn = new JButton("Save");
         saveGameBtn.setSize(120, 50);
         saveGameBtn.setLocation(loadGameBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
         add(saveGameBtn);
+        saveGameBtn.setForeground(Color.WHITE);
         saveGameBtn.addKeyListener(this);
         saveGameBtn.addActionListener(e -> {
             System.out.println("clicked Save Btn");
@@ -102,17 +120,22 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
                 e1.printStackTrace();
             }
         });
+        saveGameBtn.setBackground(null);
+        saveGameBtn.setOpaque(false);
+        saveGameBtn.setContentAreaFilled(false);
 
-        JButton AIBtn = new JButton("Withdraw");
-        AIBtn.setSize(120, 50);
-        AIBtn.setLocation(saveGameBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
-        add(AIBtn);
-        AIBtn.addKeyListener(this);
-        AIBtn.addActionListener(e -> {
+        JButton WithdrawButton = new JButton("Withdraw");
+        WithdrawButton.setSize(120, 50);
+        WithdrawButton.setLocation(saveGameBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
+        add(WithdrawButton);
+        WithdrawButton.setForeground(Color.WHITE);
+        WithdrawButton.addKeyListener(this);
+        WithdrawButton.addActionListener(e -> {
             System.out.println("clicked Withdraw Btn");
             controller.withdrawLastStep();
             this.requestFocusInWindow();
         });
+        WithdrawButton.setContentAreaFilled(false);
 
         if (LOCALMODE) {
             controller = new GameController(chessBoardPanel, statusPanel, player);
@@ -134,6 +157,9 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         }
         this.add(chessBoardPanel);
         this.add(statusPanel);
+        JLabel background = new JLabel(yun);
+        add(background);
+        background.setBounds(0, 0, 800, 800);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addKeyListener(this);

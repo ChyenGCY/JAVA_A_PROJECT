@@ -18,6 +18,7 @@ public class StatusPanel extends JPanel {
         this.playerLabel.setLocation(0, 10);
         this.playerLabel.setSize((int) (width * 0.4), height);
         this.playerLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        this.playerLabel.setForeground(Color.WHITE);
         this.setPlayerText(ChessPiece.BLACK.name());
         add(playerLabel);
 
@@ -25,7 +26,8 @@ public class StatusPanel extends JPanel {
         this.scoreLabel.setLocation((int) (width * 0.4), 10);
         this.scoreLabel.setSize((int) (width * 0.5), height);
         this.scoreLabel.setFont(new Font("Calibri", Font.ITALIC, 25));
-        this.setScoreText(2,2);
+        this.scoreLabel.setForeground(Color.WHITE);
+        this.setScoreText(2, 2);
         add(scoreLabel);
 
     }
@@ -37,5 +39,5 @@ public class StatusPanel extends JPanel {
     public void setPlayerText(String playerText) {
         this.playerLabel.setText(playerText + "'s turn");
     }
-    
+
 }

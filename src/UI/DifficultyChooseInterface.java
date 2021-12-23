@@ -28,13 +28,16 @@ public class DifficultyChooseInterface extends JFrame implements KeyListener {
         l1.setBounds(150, 100, 400, 50);
         l1.setFont(new Font("宋体", Font.BOLD, 20));
 
-        JButton b1, b2;
-        b1 = new JButton("简单模式");
+        JButton b1, b2, b3;
+        b1 = new JButton("Easy Mode");
         add(b1);
-        b2 = new JButton("困难模式");
+        b2 = new JButton("Middle Mode");
         add(b2);
-        b1.setBounds(150, 200, 200, 50);
-        b2.setBounds(150, 300, 200, 50);
+        b3 = new JButton("Hard MOde");
+        add(b3);
+        b1.setBounds(150, 100, 200, 50);
+        b2.setBounds(150, 200, 200, 50);
+        b3.setBounds(150, 300, 200, 50);
 
         b1.addActionListener(e -> {
             dispose();// 关掉当前窗口
@@ -47,6 +50,13 @@ public class DifficultyChooseInterface extends JFrame implements KeyListener {
             dispose();// 关掉当前窗口
             // new Simple(this.account);//创建一个新窗口
             GameFrame mainFrame = new GameFrame(800, false, false, true, 2, false, player);
+            mainFrame.setVisible(true);
+        });
+
+        b3.addActionListener(e -> {
+            dispose();// 关掉当前窗口
+            // new Simple(this.account);//创建一个新窗口
+            GameFrame mainFrame = new GameFrame(800, false, false, true, 3, false, player);
             mainFrame.setVisible(true);
         });
     }

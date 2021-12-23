@@ -15,7 +15,7 @@ public class ChessBoardPanel extends JPanel {
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(null);
-        this.setBackground(Color.BLACK);
+        // this.setBackground(Color.BLACK);
         int length = Math.min(width, height);
         this.setSize(length, length);
         ChessGridComponent.gridSize = length / CHESS_COUNT;
@@ -24,6 +24,8 @@ public class ChessBoardPanel extends JPanel {
                 width, height, ChessGridComponent.gridSize, ChessGridComponent.chessSize);
         initialChessGrids();// return empty chessboard
         initialGame();// add initial four chess
+        setBackground(null);
+        setOpaque(false);
         // MouseHandler handler = new MouseHandler();
 
         // repaint();
@@ -77,7 +79,7 @@ public class ChessBoardPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        // g.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
 
     public boolean canClickGrid(int row, int col, ChessPiece currentPlayer) {

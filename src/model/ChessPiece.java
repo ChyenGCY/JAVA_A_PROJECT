@@ -3,7 +3,7 @@ package model;
 import java.awt.*;
 
 public enum ChessPiece {
-    BLACK(-1, Color.BLACK), WHITE(1, Color.WHITE), GRAY(0, Color.GRAY);
+    BLACK(-1, Color.BLACK), WHITE(1, Color.WHITE), GRAY(0, new Color(173, 216, 230, 150));
 
     private final Color color;
     private int type;
