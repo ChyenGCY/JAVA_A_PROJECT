@@ -174,7 +174,7 @@ public class GameController {
 
     public void readFileData(File file) {
         // todo: read date from file
-        List<String> fileData = new ArrayList<>();
+        ArrayList<String> fileData = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -190,16 +190,20 @@ public class GameController {
         }
     }
 
-    private void reloadSteps(List<String> fileData) {
+    private void reloadSteps(ArrayList<String> fileData) {
         restartGame();
         step = new Step();
+        ArrayList<String> sp = new ArrayList<String>();
         for (String str : fileData) {
             String[] step = str.trim().split(" ");
             int last_player = Integer.parseInt(step[0]);
             int x = Integer.parseInt(step[1]);
             int y = Integer.parseInt(step[2]);
             GameRule.updateBoard(x, y, last_player);
+            sp.add(str.trim());
         }
+        step.setSteps(sp);
+        countScore();
     }
 
     public void writeDataToFile() throws IOException {
@@ -239,5 +243,21 @@ public class GameController {
 
     public void AIGame() {
         gamePanel.AIGame();
+    }
+
+    public void withdrawLastStep() {
+        boolean canWithdraw = step.removeLastStep();
+        if (canWithdraw) {
+            restartGame();
+            for (String str : step.getSteps()) {
+                String[] step = str.trim().split(" ");
+                int last_player = Integer.parseInt(step[0]);
+                int x = Integer.parseInt(step[1]);
+                int y = Integer.parseInt(step[2]);
+                GameRule.updateBoard(x, y, last_player);
+            }
+            swapPlayer();
+        }
+        countScore();
     }
 }

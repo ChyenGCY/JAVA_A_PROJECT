@@ -1,5 +1,6 @@
 package System;
 
+import java.awt.Container;
 import java.util.ArrayList;
 
 public class Step {
@@ -24,5 +25,17 @@ public class Step {
 
     public ArrayList<String> getSteps() {
         return steps;
+    }
+
+    public boolean removeLastStep() {
+        if (steps.size() > 0) {
+            this.steps.remove(steps.size() - 1);
+            return true;
+        }
+        return false;
+    }
+
+    public void setSteps(ArrayList<String> sp) {
+        this.steps = sp;
     }
 }

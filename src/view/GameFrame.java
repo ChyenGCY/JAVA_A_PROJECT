@@ -103,16 +103,15 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
             }
         });
 
-        JButton AIBtn = new JButton("AI-GO");
+        JButton AIBtn = new JButton("Withdraw");
         AIBtn.setSize(120, 50);
         AIBtn.setLocation(saveGameBtn.getX() + restartBtn.getWidth() + 20, restartBtn.getY());
         add(AIBtn);
         AIBtn.addKeyListener(this);
         AIBtn.addActionListener(e -> {
-            if (VSAIMODE) {
-                controller.AIGame();
-                System.out.println("AI done.");
-            }
+            System.out.println("clicked Withdraw Btn");
+            controller.withdrawLastStep();
+            this.requestFocusInWindow();
         });
 
         if (LOCALMODE) {
@@ -180,6 +179,12 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         if (e.getKeyChar() == 's') {
             controller.showTurn();
             cheating = 0;
+        }
+        if (e.getKeyCode() == 10) {
+            if (VSAIMODE) {
+                controller.AIGame();
+                System.out.println("AI done.");
+            }
         }
     }
 
