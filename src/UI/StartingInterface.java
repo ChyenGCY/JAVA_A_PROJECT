@@ -97,23 +97,35 @@ public class StartingInterface extends JFrame implements KeyListener {
 
         b1.addActionListener(e -> {
             String account_name = accountText.getText();
-            // System.out.println(account_name);
-            String password = JOptionPane.showInputDialog(this, "input the password");
-            if (!gameSystem.checkPlayer(account_name)) {
-                player = new Player(account_name, password, "0", "0");
-                gameSystem.addPlayer(player);
-                GameSystem.saveToFiles();
-                new JFrame("account created");
-            } else {
-                while (!gameSystem.findPlayer(account_name).getPassWord().equals(password)) {
-                    password = JOptionPane.showInputDialog(this, "wrong password,input again");
-                }
-                player = gameSystem.findPlayer(account_name);
-                GameSystem.saveToFiles();
+            String password = "";
+            if (!account_name.equals("")) {
+                password = JOptionPane.showInputDialog(this, "input the password");
             }
-            music.stop();
-            dispose();
-            new modeInterface(player);
+            // System.out.println(account_name);
+            if (password != null && !password.equals("")) {
+                if (!gameSystem.checkPlayer(account_name)) {
+                    player = new Player(account_name, password, "0", "0");
+                    gameSystem.addPlayer(player);
+                    GameSystem.saveToFiles();
+                    new JFrame("account created");
+                } else {
+                    while (!gameSystem.findPlayer(account_name).getPassWord().equals(password) && (password != null
+                            && !password.equals(""))) {
+                        password = JOptionPane.showInputDialog(this, "wrong password,input again");
+                    }
+                    if (password != null && !password.equals("")) {
+                        player = gameSystem.findPlayer(account_name);
+                        GameSystem.saveToFiles();
+                    }
+                }
+                if (password != null && !password.equals("")) {
+                    music.stop();
+                    dispose();
+                    new modeInterface(player);
+                }
+
+            }
+
         });
 
         this.addKeyListener(this);

@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+README.md</font>
+</center></td></tr></table>
+<pre><span class="s0"># </span><span class="s2">JAVA_A_PROJECT</span>
+<span class="s2">Reversi</span>
+<span class="s2">Reversi </span><span class="s1">(</span><span class="s2">黑白棋</span><span class="s1">) </span><span class="s2">is a strategy board game for two players, played on an 8×8</span>
+<span class="s2">uncheckered board. It was invented in 1883.</span>
+<span class="s2">Basics</span>
+<span class="s2">There are 64 identical game pieces called disks </span><span class="s1">(</span><span class="s2">棋子</span><span class="s1">)</span><span class="s2">, which are light </span><span class="s1">(</span><span class="s2">白</span><span class="s1">) </span><span class="s2">on one side</span>
+<span class="s2">and dark </span><span class="s1">(</span><span class="s2">黑</span><span class="s1">) </span><span class="s2">on the other. Players take turns placing disks on the board with their</span>
+<span class="s2">assigned color facing up. When a player places a disk on her/his turn, it is called a</span>
+<span class="s2">play. During a play, any disks of the opponent player's color that are in between the</span>
+<span class="s2">disk just placed and another disk of the current player's color are turned over to the</span>
+<span class="s2">current player's color. The objective of the game is to have the majority of disks</span>
+<span class="s2">turned to display one's color when the last playable empty square is filled.</span>
+<span class="s2">Play</span>
+<span class="s0">1. </span><span class="s2">A game begins with four disks placed in a square in the middle of the grid, two</span>
+<span class="s2">facing white-side-up, two dark-side-up, so that the same-colored disks are on a</span>
+<span class="s2">diagonal. Convention has this such that the dark-side-up disks are to the northeast and south-west. The dark player always moves first.</span>
+<span class="s0">2. </span><span class="s2">After placing a dark disk, dark turns over </span><span class="s1">(</span><span class="s2">flips to dark, captures</span><span class="s1">) </span><span class="s2">the single disk</span>
+<span class="s1">(</span><span class="s2">or chain of light disks</span><span class="s1">) </span><span class="s2">on the line between the new piece and an anchoring dark</span>
+<span class="s2">piece. No player can look back to the previous status of disks when a game</span>
+<span class="s2">moves. A valid play is one where at least one piece is reversed </span><span class="s1">(</span><span class="s2">flipped over</span><span class="s1">)</span><span class="s2">.</span>
+<span class="s0">3. </span><span class="s2">Then it is the light player's turn. This player operates under the same rules, with</span>
+<span class="s2">the roles reversed</span><span class="s1">: </span><span class="s2">the light player lays down a light piece, causing a dark piece to </span>
+<span class="s2">flip.</span>
+<span class="s0">4. </span><span class="s2">Players take alternate turns. If one player cannot make a valid move, play passes</span>
+<span class="s2">back to the other player. When neither player can move, the game ends. This</span>
+<span class="s2">occurs when the grid has filled up or when neither player can legally place a piece</span>
+<span class="s2">in any of the remaining squares. This means the game may end before the board</span>
+<span class="s2">is completely filled. This may possibly occur when one player has no disks</span>
+<span class="s2">remaining on the board in that player's color.</span>
+<span class="s0">5. </span><span class="s2">The player with the most pieces on the board at the end of the game wins.</span>
+<span class="s2">Project Requirements</span>
+<span class="s2">You are required to form a group of two students </span><span class="s1">(</span><span class="s2">with the same lab teacher, no</span>
+<span class="s2">exception</span><span class="s1">)</span><span class="s2">. Please design and implement a Java program to simulate the Reversi</span>
+<span class="s2">game for two players. Note that the only programming language you can use in this</span>
+<span class="s2">project is Java </span><span class="s1">(</span><span class="s2">Scala and Kotlin are acceptable</span><span class="s1">)</span><span class="s2">.</span>
+<span class="s2">There are four tasks below to accomplish, each of which has several points towards</span>
+<span class="s2">the final grade of your group. A framework/skeleton of the game will be release</span>
+<span class="s2">shortly to facilitate your programming.</span>
+<span class="s2">Task 1</span><span class="s1">: </span><span class="s2">Initialize Game </span><span class="s1">(</span><span class="s2">20 pts</span><span class="s1">)</span>
+<span class="s2">l Your program should be able to initialize a new chess game, which includes the</span>
+<span class="s2">chessboard and the initial disks in their correct position.</span>
+<span class="s2">l Your program should be able to display the status of the game </span><span class="s1">(</span><span class="s2">In Progress, Dark</span>
+<span class="s2">Turn or Light Turn, etc.</span><span class="s1">)</span>
+<span class="s2">l Your program should be able to restart a game by clicking a button rather than</span>
+<span class="s2">closing it and open the game again.</span>
+<span class="s2">Task 2</span><span class="s1">: </span><span class="s2">Load and Save a Game </span><span class="s1">(</span><span class="s2">20 pts</span><span class="s1">)</span>
+<span class="s2">l Your program should be able to load an existing game from a text file with a predefined format by clicking buttons. After loading, all disks should be placed at</span>
+<span class="s2">their positions given in the text file. The save file includes at least the current</span>
+<span class="s2">chessboard, the previous moves, and the current side to play </span><span class="s1">(</span><span class="s2">dark or light</span><span class="s1">)</span><span class="s2">.</span>
+<span class="s2">l Your program should be able to perform error check, e.g., there is no winner yet, </span>
+<span class="s2">any move is invalid, etc.</span>
+<span class="s2">l Your program should be able to save the current game into a text file.</span>
+<span class="s2">Task 3</span><span class="s1">: </span><span class="s2">Play the game </span><span class="s1">(</span><span class="s2">20 pts</span><span class="s1">)</span>
+<span class="s2">l Your program should detect the winning status of the game, and end the game</span>
+<span class="s2">when there is a winner.</span>
+<span class="s2">l Your program should allow disks to be flipped according to the rules.</span>
+<span class="s2">l During one game, your program should be able to switch between the normal</span>
+<span class="s2">and the cheat mode, the latter of which allows a player to place either dark or</span>
+<span class="s2">light disks at any empty position.</span>
+<span class="s2">Task 4</span><span class="s1">: </span><span class="s2">Graphical User Interface </span><span class="s1">(</span><span class="s2">20 pts</span><span class="s1">)</span>
+<span class="s2">l Your program should have a graphical user interface using Java Swing </span><span class="s1">(</span><span class="s2">JavaFX is</span>
+<span class="s2">acceptable</span><span class="s1">)</span><span class="s2">.</span>
+<span class="s2">Bonus </span><span class="s1">(</span><span class="s2">20/30 pts</span><span class="s1">):</span>
+<span class="s2">If your program satisfies all the above basic requirements, you will get 80 points. The</span>
+<span class="s2">remaining 20/30 points will be given as bonus. You are highly encouraged to go</span>
+<span class="s2">beyond our requirements. Below are some possible ways to get bonus. Compare to</span>
+<span class="s2">the bonus points, the basic points are easier to get. Here you need to rely on your</span>
+<span class="s2">own ability to present your programming charm</span><span class="s1">!</span>
+<span class="s2">l Design Human vs. Machine mode of different difficulty level, and make the</span>
+<span class="s2">machine player smarter.</span>
+<span class="s2">l Design a platform for your game, such as adding multi-user, ranking list, adding</span>
+<span class="s2">start menu for selecting the game modes, etc.</span>
+<span class="s2">l Make your game looks nicer, such as change the theme, adding sound effect,</span>
+<span class="s2">adding background music, adding more prompt label when the game is in</span>
+<span class="s2">process.</span>
+<span class="s2">l Show possible moves when a disk is being placed.</span>
+<span class="s2">l Play the process of placing and flipping disks after loading the save file.</span>
+<span class="s2">l Undo operation.</span>
+<span class="s2">l Support on-line mode in Local Area Network.</span>
+<span class="s2">l Pack the game as an executable that can be executed on a computer without JRE.</span>
+<span class="s2">l And more.</span>
+<span class="s2">During project evaluation, your bonus functions will be evaluated according to their</span>
+<span class="s2">difficulty and novelty, and grouped into A/B/C/D class. A grants 12 pts, B grants 8 pts,</span>
+<span class="s2">C grants 4 pts, D grants 2 pts. Points granted from the same class by multiple bonus</span>
+<span class="s2">functions can stack. All bonus functions count towards the bonus points you can get.</span>
+<span class="s2">This part caps at 30 points if your project is demonstrated on Week 15 labs, and caps</span>
+<span class="s2">at 20 points if it is during Week 16 labs. The total grade of project part can not exceed</span>
+<span class="s2">100 points.</span>
+</pre>
+</body>
+</html>
