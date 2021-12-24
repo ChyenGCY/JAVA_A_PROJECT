@@ -20,6 +20,7 @@ import javax.swing.WindowConstants;
 import System.GameSystem;
 import System.Player;
 import UI.modeInterface;
+import UI.musicStuff;
 import controller.GameController;
 import model.ChessPiece;
 
@@ -34,6 +35,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
     public static int difficulty;
     public static boolean host;
     public static int cheating;
+    public musicStuff music = new musicStuff();
     // private static boolean AITime = false;
 
     public GameFrame(int frameSize, boolean LOCALMODE, boolean ONLINEMODE, boolean VSAIMODE, int difficulty,
@@ -160,6 +162,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         JLabel background = new JLabel(yun);
         add(background);
         background.setBounds(0, 0, 800, 800);
+        music.playMusic("./music/zhongli.wav");
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addKeyListener(this);
@@ -190,6 +193,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         // dispose();
         if (e.getKeyCode() == 27) {
             dispose();
+            music.stop();
             // if (ONLINEMODE)
             // Sever.getS;
             new modeInterface(player);

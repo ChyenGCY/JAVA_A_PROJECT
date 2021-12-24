@@ -37,7 +37,8 @@ public class GameSystem {
         for (String str : fileData) {
             String[] player_str = str.trim().split(" ");
             Player player = new Player(player_str[0], player_str[1], player_str[2], player_str[3]);
-            playerList.add(player);
+            if (!checkPlayer(player.getName()))
+                playerList.add(player);
         }
     }
 
@@ -94,6 +95,14 @@ public class GameSystem {
     }
 
     public static void saveToFiles() {
+        try {
+            FileWriter fileWriter = new FileWriter("savings/gameSystem.txt");
+            fileWriter.write("");
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             FileWriter fileWriter = new FileWriter("savings/gameSystem.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);

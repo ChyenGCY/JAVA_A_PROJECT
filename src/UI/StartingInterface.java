@@ -22,6 +22,7 @@ import System.GameSystem;
 import System.Player;
 
 public class StartingInterface extends JFrame implements KeyListener {
+
     private final class DefaultListCellRendererExtension extends DefaultListCellRenderer {
         public Component getListCellRendererComponent(JList jlist, Object o, int i, boolean bln, boolean bln1) {
             Component listCellRendererComponent = super.getListCellRendererComponent(jlist, o, i, bln, bln1);
@@ -33,9 +34,11 @@ public class StartingInterface extends JFrame implements KeyListener {
 
     GameSystem gameSystem;
     Player player;
+    musicStuff music = new musicStuff();
 
     public StartingInterface(GameSystem gameSystem) {
         super("开始界面");
+        music.playMusic("./music/inno.wav");
         gameSystem.loadFromFIle();
         this.gameSystem = gameSystem;
         // JLabel l1 = new JLabel("欢迎来到杰哥快乐棋");
@@ -108,6 +111,7 @@ public class StartingInterface extends JFrame implements KeyListener {
                 player = gameSystem.findPlayer(account_name);
                 GameSystem.saveToFiles();
             }
+            music.stop();
             dispose();
             new modeInterface(player);
         });
@@ -140,7 +144,9 @@ public class StartingInterface extends JFrame implements KeyListener {
         // TODO Auto-generated method stub
         System.out.println(e.getKeyChar());
         if (e.getKeyCode() == 27) {
+            music.stop();
             dispose();
+
         }
     }
 

@@ -16,10 +16,13 @@ import view.GameFrame;
 
 public class modeInterface extends JFrame implements KeyListener {
     public Player player;
+    public musicStuff music = new musicStuff();
 
     public modeInterface(Player player) {
         super("模式选择界面");
+        music.playMusic("./music/keli.wav");
         this.player = player;
+        ImageIcon he = new ImageIcon("./Picture/he.JPG");
         setSize(800, 800);
 
         JButton b1 = new JButton("单人模式");
@@ -48,11 +51,13 @@ public class modeInterface extends JFrame implements KeyListener {
         // });
         b1.addActionListener(e -> {
             dispose();
+            music.stop();
             new DifficultyChooseInterface(this.player);
         });
 
         b2.addActionListener(e -> {
             dispose();
+            music.stop();
             try {
                 new ServerOrClientInterface(this.player);
             } catch (UnknownHostException e1) {
@@ -63,6 +68,7 @@ public class modeInterface extends JFrame implements KeyListener {
 
         b3.addActionListener(e -> {
             dispose();// 关掉当前窗口
+            music.stop();
             // new Simple(this.account);//创建一个新窗口
             GameFrame mainFrame = new GameFrame(800, true, false, false, 0, false, player);
             mainFrame.setVisible(true);
@@ -79,6 +85,9 @@ public class modeInterface extends JFrame implements KeyListener {
         setLayout(null);// using no layout managers
         setVisible(true);// making the frame visible
         setLocation(300, 200);
+        JLabel background = new JLabel(he);
+        add(background);
+        background.setBounds(0, 0, 800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 关掉窗口时结束程序
         this.addKeyListener(this);
         this.requestFocusInWindow();
@@ -96,6 +105,7 @@ public class modeInterface extends JFrame implements KeyListener {
         System.out.println(e.getKeyChar());
         if (e.getKeyCode() == 27) {
             dispose();
+            music.stop();
             new StartingInterface(new GameSystem());
         }
     }
