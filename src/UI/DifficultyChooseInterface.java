@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,40 +21,45 @@ public class DifficultyChooseInterface extends JFrame implements KeyListener {
         setLayout(null);
         setVisible(true);
         setLocation(400, 200);
-        setSize(500, 500);
+        setSize(400, 500);
         this.addKeyListener(this);
         this.requestFocusInWindow();
-        JLabel l1 = new JLabel("请选择您想挑战的难度：");
-        add(l1);
-        l1.setBounds(150, 100, 400, 50);
-        l1.setFont(new Font("宋体", Font.BOLD, 20));
+        ImageIcon diffBg = new ImageIcon("./Picture/middleBg.png");
+        ImageIcon simple = new ImageIcon("./Picture/simple.png");
+        ImageIcon middle = new ImageIcon("./Picture/middle.png");
+        ImageIcon difficult = new ImageIcon("./Picture/difficult.png");
 
-        JButton b1, b2, b3;
-        b1 = new JButton("Easy Mode");
-        add(b1);
-        b2 = new JButton("Middle Mode");
-        add(b2);
-        b3 = new JButton("Hard MOde");
-        add(b3);
-        b1.setBounds(150, 100, 200, 50);
-        b2.setBounds(150, 200, 200, 50);
-        b3.setBounds(150, 300, 200, 50);
+        JButton simpleButton, middleButton, diffButton;
+        simpleButton = new JButton(simple);
+        add(simpleButton);
+        middleButton = new JButton(middle);
+        add(middleButton);
+        diffButton = new JButton(difficult);
+        add(diffButton);
 
-        b1.addActionListener(e -> {
+        simpleButton.setBounds(100, 30, 200, 100);
+        middleButton.setBounds(100, 180, 200, 100);
+        diffButton.setBounds(100, 330, 200, 100);
+
+        JLabel bg = new JLabel(diffBg);
+        add(bg);
+        bg.setBounds(0, 0, 400, 500);
+
+        simpleButton.addActionListener(e -> {
             dispose();// 关掉当前窗口
             // new Simple(this.account);//创建一个新窗口
             GameFrame mainFrame = new GameFrame(800, false, false, true, 1, false, player);
             mainFrame.setVisible(true);
         });
 
-        b2.addActionListener(e -> {
+        middleButton.addActionListener(e -> {
             dispose();// 关掉当前窗口
             // new Simple(this.account);//创建一个新窗口
             GameFrame mainFrame = new GameFrame(800, false, false, true, 2, false, player);
             mainFrame.setVisible(true);
         });
 
-        b3.addActionListener(e -> {
+        diffButton.addActionListener(e -> {
             dispose();// 关掉当前窗口
             // new Simple(this.account);//创建一个新窗口
             GameFrame mainFrame = new GameFrame(800, false, false, true, 3, false, player);

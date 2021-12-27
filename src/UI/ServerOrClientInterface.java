@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,12 +30,19 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
         setVisible(true);
         this.addKeyListener(this);
         this.requestFocusInWindow();
-        JButton serverButton = new JButton("Server");
+
+        ImageIcon serverBg = new ImageIcon("./Picture/smallBg.png");
+        ImageIcon server = new ImageIcon("./Picture/server.png");
+        ImageIcon client = new ImageIcon("./Picture/client.png");
+        JButton serverButton = new JButton(server);
         add(serverButton);
-        JButton clientButton = new JButton("Client");
+        JButton clientButton = new JButton(client);
         add(clientButton);
-        serverButton.setBounds(220, 100, 200, 40);
-        clientButton.setBounds(220, 300, 200, 40);
+        serverButton.setBounds(40, 50, 200, 100);
+        clientButton.setBounds(40, 200, 200, 100);
+        JLabel bg = new JLabel(serverBg);
+        add(bg);
+        bg.setBounds(0, 0, 300, 400);
 
         JLabel IPLabel = new JLabel();
         add(IPLabel);
@@ -74,6 +82,8 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
                 e1.printStackTrace();
             }
         });
+        this.addKeyListener(this);
+        this.requestFocusInWindow();
     }
 
     @Override

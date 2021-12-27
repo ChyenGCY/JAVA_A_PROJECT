@@ -1,6 +1,6 @@
 package UI;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.UnknownHostException;
@@ -23,23 +23,26 @@ public class modeInterface extends JFrame implements KeyListener {
         music.playMusic("./music/keli.wav");
         this.player = player;
         ImageIcon he = new ImageIcon("./Picture/he.JPG");
-        setSize(800, 800);
+        setSize(600, 600);
 
-        JButton b1 = new JButton("单人模式");
-        add(b1);
-        JButton b2 = new JButton("联机模式");
-        add(b2);
-        JButton b3 = new JButton("双人模式");
-        add(b3);
+        ImageIcon bg = new ImageIcon("./Picture/modernBg.png");
+        ImageIcon dan = new ImageIcon("./Picture/dan.png");
+        ImageIcon shuang = new ImageIcon("./Picture/shuang.png");
+        ImageIcon lian = new ImageIcon("./Picture/lian.png");
 
-        JLabel l1 = new JLabel("杰哥快乐棋");
-        add(l1);
-        l1.setFont(new Font("宋体", Font.BOLD, 30));
-        ImageIcon icon = new ImageIcon();
-        JLabel l3 = new JLabel("HELLO," + player.getName());
-        add(l3);
-        JLabel l2 = new JLabel(icon);
-        add(l2);
+        JButton danButton = new JButton(dan);
+        add(danButton);
+        JButton shuangButton = new JButton(shuang);
+        add(shuangButton);
+        JButton lianButton = new JButton(lian);
+        add(lianButton);
+
+        JLabel hello = new JLabel("你好," + player.getName());
+        add(hello);
+        hello.setFont(new Font("宋体", Font.BOLD, 25));
+        hello.setForeground(Color.WHITE);
+        JLabel modernBG = new JLabel(bg);
+        add(modernBG);
 
         // b3.addActionListener(new ActionListener() {
         // @Override
@@ -49,13 +52,13 @@ public class modeInterface extends JFrame implements KeyListener {
         // }
         //
         // });
-        b1.addActionListener(e -> {
+        danButton.addActionListener(e -> {
             dispose();
             music.stop();
             new DifficultyChooseInterface(this.player);
         });
 
-        b2.addActionListener(e -> {
+        lianButton.addActionListener(e -> {
             dispose();
             music.stop();
             try {
@@ -66,7 +69,7 @@ public class modeInterface extends JFrame implements KeyListener {
             }
         });
 
-        b3.addActionListener(e -> {
+        shuangButton.addActionListener(e -> {
             dispose();// 关掉当前窗口
             music.stop();
             // new Simple(this.account);//创建一个新窗口
@@ -74,12 +77,11 @@ public class modeInterface extends JFrame implements KeyListener {
             mainFrame.setVisible(true);
         });
 
-        b1.setBounds(220, 100, 200, 40);
-        b2.setBounds(220, 300, 200, 40);
-        b3.setBounds(220, 500, 200, 40);
-        l1.setBounds(270, 50, 300, 40);
-        l2.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());// 640,640
-        l3.setBounds(10, 10, 500, 20);
+        danButton.setBounds(30, 150, 150, 200);
+        lianButton.setBounds(220, 150, 150, 200);
+        shuangButton.setBounds(410, 150, 150, 200);
+        modernBG.setBounds(0, 0, 600, 600);
+        hello.setBounds(30, 10, 600, 50);
 
         // setSize(icon.getIconWidth(), icon.getIconHeight());//窗口大小
         setLayout(null);// using no layout managers

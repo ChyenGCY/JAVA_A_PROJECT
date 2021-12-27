@@ -33,9 +33,9 @@ public class musicStuff {
         clip.close();
     }
 
-    public static void main(String[] args) {
-        musicStuff music = new musicStuff();
-        music.playMusic("./music/keli.wav");
-        music.stop();
-    }
+    // public static void main(String[] args) {
+    // musicStuff music = new musicStuff();
+    // music.playMusic("./music/keli.wav");
+    // music.stop();
+    // }
 }
