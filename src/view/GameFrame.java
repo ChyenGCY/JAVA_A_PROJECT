@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
+import AIPlayer.EasyAI;
 import System.GameSystem;
 import System.Player;
 import UI.modeInterface;
@@ -35,6 +36,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
     public static int difficulty;
     public static boolean host;
     public static int cheating;
+    public static boolean AIGO = false;
     public musicStuff music = new musicStuff();
     // private static boolean AITime = false;
 
@@ -154,6 +156,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         if (VSAIMODE) {
             controller = new GameController(chessBoardPanel, statusPanel, player);
             controller.setGamePanel(chessBoardPanel);
+            new Thread(new EasyAI(ChessPiece.WHITE)).start();
             // this.addKeyListener(this);
             // this.requestFocusInWindow();
         }
@@ -189,7 +192,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
     @Override
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
-        System.out.println(e.getKeyChar());
+        // System.out.println(e.getKeyChar());
         // dispose();
         if (e.getKeyCode() == 27) {
             dispose();

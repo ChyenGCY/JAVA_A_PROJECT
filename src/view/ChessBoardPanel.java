@@ -117,4 +117,12 @@ public class ChessBoardPanel extends JPanel {
         GameFrame.controller.countScore();
         repaint();
     }
+
+    public void setChess(int x, int y, int last_player) {
+        if (last_player == 1)
+            chessGrids[x][y].setChessPiece(ChessPiece.WHITE);
+        if (last_player == -1)
+            chessGrids[x][y].setChessPiece(ChessPiece.BLACK);
+        repaint();
+    }
 }

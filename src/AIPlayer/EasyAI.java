@@ -3,8 +3,9 @@ package AIPlayer;
 import controller.ChessBoard;
 import controller.GameRule;
 import model.ChessPiece;
+import view.GameFrame;
 
-public class EasyAI {
+public class EasyAI implements Runnable {
 
     private ChessPiece chessPiece;
     private int[][] mapPoint = {
@@ -17,6 +18,7 @@ public class EasyAI {
             { -60, -80, 5, 5, 5, 5, -80, -60 },
             { 90, -60, 10, 10, 10, 10, -60, 90 }
     }; // init a matrix of points in the map
+       // public boolean AIGO = false;
 
     public EasyAI(ChessPiece chessPiece) {
         this.chessPiece = chessPiece;
@@ -76,12 +78,12 @@ public class EasyAI {
         }
         step_cordinate = findMaxWeight(weightMap);
         int[][] newWeightMap = weightMap;
-        for (int a = 0; a < 8; a++) {
-            for (int b = 0; b < 8; b++) {
-                System.out.print(newWeightMap[a][b] + " ");
-            }
-            System.out.println();
-        }
+        // for (int a = 0; a < 8; a++) {
+        // for (int b = 0; b < 8; b++) {
+        // System.out.print(newWeightMap[a][b] + " ");
+        // }
+        // System.out.println();
+        // }
         // while(step_cordinate!=null&&step_cordinate[0]!=-1&&((step_cordinate[0]<2&&step_cordinate[1]<2)||(step_cordinate[0]<2&&7-step_cordinate[1]<2)||(7-step_cordinate[0]<2&&step_cordinate[1]<2)||(7-step_cordinate[0]<2&&7-step_cordinate[1]<2))){
         // newWeightMap[step_cordinate[0]][step_cordinate[1]]=0;
         // step_cordinate = findMaxWeight(newWeightMap);
@@ -141,12 +143,12 @@ public class EasyAI {
         step_cordinate = findMaxWeight(weightMap);
         int[][] newWeightMap = weightMap;
 
-        for (int a = 0; a < 8; a++) {
-            for (int b = 0; b < 8; b++) {
-                System.out.print(newWeightMap[a][b] + " ");
-            }
-            System.out.println();
-        }
+        // for (int a = 0; a < 8; a++) {
+        // for (int b = 0; b < 8; b++) {
+        // System.out.print(newWeightMap[a][b] + " ");
+        // }
+        // System.out.println();
+        // }
 
         return step_cordinate;
     }
@@ -213,5 +215,24 @@ public class EasyAI {
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++)
                 one[i][j] = last[i][j];
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        while (true) {
+            System.out.print("");
+            if (GameFrame.AIGO) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                // System.out.println(GameFrame.AIGO);
+                GameFrame.controller.AIGame();
+                GameFrame.AIGO = false;
+            }
+        }
     }
 }

@@ -15,6 +15,8 @@ public class WinnerFrame extends JFrame implements KeyListener {
         l1.setFont(new Font("楷体", Font.BOLD, 30));
         l1.setBounds(180, 100, 50, 50);
         setSize(300, 300);
+        this.addKeyListener(this);
+        this.requestFocusInWindow();
         setVisible(true);
     }
 

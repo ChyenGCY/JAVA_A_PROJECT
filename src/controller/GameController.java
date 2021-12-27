@@ -200,6 +200,7 @@ public class GameController {
             int last_player = Integer.parseInt(step[0]);
             int x = Integer.parseInt(step[1]);
             int y = Integer.parseInt(step[2]);
+            gamePanel.setChess(x, y, last_player);
             GameRule.updateBoard(x, y, last_player);
             sp.add(str.trim());
         }
@@ -255,6 +256,7 @@ public class GameController {
                 int last_player = Integer.parseInt(step[0]);
                 int x = Integer.parseInt(step[1]);
                 int y = Integer.parseInt(step[2]);
+                gamePanel.setChess(x, y, last_player);
                 GameRule.updateBoard(x, y, last_player);
             }
             swapPlayer();

@@ -51,16 +51,23 @@ public class ChessGridComponent extends BasicComponent {
                 // GameFrame.controller.checkWin();
                 if (GameFrame.LOCALMODE)
                     GameFrame.controller.swapPlayer();
+                if (GameFrame.VSAIMODE)
+                    GameFrame.AIGO = true;
                 // GameFrame.controller.restartGame();
             } else
                 System.out.println("invalid click");
         } else if (GameFrame.cheating == 1) {
             this.chessPiece = ChessPiece.WHITE;
             GameRule.updateBoard(row, col, this.chessPiece.getType());
+            String step = chessPiece.WHITE.getType() + " " + row + " " + col;
+            GameFrame.controller.getStep().addstep(step);
             GameFrame.controller.countScore();
         } else if (GameFrame.cheating == -1) {
             this.chessPiece = ChessPiece.BLACK;
             GameRule.updateBoard(row, col, this.chessPiece.getType());
+            GameRule.updateBoard(row, col, this.chessPiece.getType());
+            String step = chessPiece.BLACK.getType() + " " + row + " " + col;
+            GameFrame.controller.getStep().addstep(step);
             GameFrame.controller.countScore();
         }
         GameFrame.controller.checkWin();
