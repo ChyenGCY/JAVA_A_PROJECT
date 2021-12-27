@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import System.Player;
 import socket.Client;
 import socket.Sever;
-
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -23,13 +23,19 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
     public ServerOrClientInterface(Player player) throws UnknownHostException {
         super("Server Or Client");
         this.player = player;
-        setSize(640, 640);
+        setSize(300, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(300, 200);
         setLayout(null);
         setVisible(true);
         this.addKeyListener(this);
         this.requestFocusInWindow();
+        JLabel IPLabel = new JLabel();
+        add(IPLabel);
+        IPLabel.setText("Your IP :" + InetAddress.getLocalHost());
+        IPLabel.setBounds(0, 250, 400, 200);
+        IPLabel.setFont(new Font("楷体", Font.BOLD, 13));
+        IPLabel.setForeground(Color.WHITE);
 
         ImageIcon serverBg = new ImageIcon("./Picture/smallBg.png");
         ImageIcon server = new ImageIcon("./Picture/server.png");
@@ -44,10 +50,6 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
         add(bg);
         bg.setBounds(0, 0, 300, 400);
 
-        JLabel IPLabel = new JLabel();
-        add(IPLabel);
-        IPLabel.setText("Your IP :" + InetAddress.getLocalHost());
-        IPLabel.setBounds(250, 250, 400, 200);
         // IPLabel.setFont(new Font())
 
         serverButton.addActionListener(e -> {
@@ -107,5 +109,4 @@ public class ServerOrClientInterface extends JFrame implements KeyListener {
         // TODO Auto-generated method stub
 
     }
-
 }

@@ -234,6 +234,7 @@ public class GameController {
 
     public void restartGame() {
         gamePanel.restartGame();
+        currentPlayer = ChessPiece.BLACK;
     }
 
     public void performOnline(String str) {
