@@ -93,6 +93,8 @@ public class ChessBoardPanel extends JPanel {
         // System.out.println(GameRule.getExpectMatrix());
         // GameFrame.controller.swapPlayer();
         GameRule.updateBoard(next_step[0], next_step[1], ChessPiece.WHITE.getType());
+        String step = ChessPiece.WHITE.getType() + " " + next_step[0] + " " + next_step[1];
+        GameFrame.controller.getStep().addstep(step);
         GameFrame.controller.countScore();
         GameFrame.controller.checkWin();
         repaint();

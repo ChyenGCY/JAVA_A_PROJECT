@@ -259,7 +259,9 @@ public class GameController {
                 gamePanel.setChess(x, y, last_player);
                 GameRule.updateBoard(x, y, last_player);
             }
-            swapPlayer();
+            // GameFrame.AIGO = true;
+            if (GameFrame.LOCALMODE)
+                swapPlayer();
         }
         countScore();
     }
