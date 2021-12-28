@@ -20,7 +20,7 @@ import java.awt.event.KeyListener;
 public class ServerOrClientInterface extends JFrame implements KeyListener {
     public Player player;
 
-    public ServerOrClientInterface(Player player) throws UnknownHostException {
+    public ServerOrClientInterface(Player player) throws UnknownHostException {// online choose interface
         super("Server Or Client");
         this.player = player;
         setSize(300, 400);

@@ -55,7 +55,7 @@ public class Client {
     }
 }
 
-class Client_listen implements Runnable {
+class Client_listen implements Runnable { // auto receive the message and perform
     private ObjectInputStream ois;
 
     Client_listen(Socket socket, ObjectInputStream ois) {
@@ -78,7 +78,7 @@ class Client_listen implements Runnable {
     }
 }
 
-class Client_send implements Runnable {
+class Client_send implements Runnable {// auto send message and init
     private Socket socket;
     private ObjectOutputStream oos;
     private Player player;

@@ -87,17 +87,19 @@ public class ChessBoardPanel extends JPanel {
         return true;
     }
 
-    public void AIGame() {
+    public String AIGame() {
 
         int[] next_step = GameFrame.controller.AI_DO();
+        String str = String.format("1 %d %d 0", next_step[0], next_step[1]);
         // System.out.println(GameRule.getExpectMatrix());
         // GameFrame.controller.swapPlayer();
         GameRule.updateBoard(next_step[0], next_step[1], ChessPiece.WHITE.getType());
-        String step = ChessPiece.WHITE.getType() + " " + next_step[0] + " " + next_step[1];
+        String step = ChessPiece.WHITE.getType() + " " + next_step[0] + " " + next_step[1] + " 0";
         GameFrame.controller.getStep().addstep(step);
         GameFrame.controller.countScore();
         GameFrame.controller.checkWin();
         repaint();
+        return str;
     }
 
     public void performOnline(int[] next_step) {

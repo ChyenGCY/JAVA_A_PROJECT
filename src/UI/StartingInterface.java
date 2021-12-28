@@ -21,6 +21,8 @@ import javax.swing.ListModel;
 import System.GameSystem;
 import System.Player;
 
+// for the login and rank
+
 public class StartingInterface extends JFrame implements KeyListener {
 
     private final class DefaultListCellRendererExtension extends DefaultListCellRenderer {
@@ -48,6 +50,8 @@ public class StartingInterface extends JFrame implements KeyListener {
         ImageIcon start = new ImageIcon("./Picture/start.jpg");// 150,160
         ImageIcon bg = new ImageIcon("./Picture/startBg2.gif");// 800,800
 
+        // ranklist adding
+
         JLabel rankListLabel = new JLabel("Ranklist：");
         rankListLabel.setForeground(Color.WHITE);
         rankListLabel.setFont(new Font("宋体", Font.BOLD, 25));
@@ -72,6 +76,8 @@ public class StartingInterface extends JFrame implements KeyListener {
         rankList.setFont(new Font("宋体", Font.BOLD, 20));
         add(rankListPanel);
 
+        // account adding
+
         JLabel l2 = new JLabel("请创建一个您的账户:");
         add(l2);
         l2.setFont(new Font("宋体", Font.PLAIN, 20));
@@ -94,6 +100,8 @@ public class StartingInterface extends JFrame implements KeyListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(300, 100);
         setLayout(null);
+
+        // button functions
 
         b1.addActionListener(e -> {
             String account_name = accountText.getText();

@@ -11,7 +11,7 @@ public class Player {
     private String passWord;
     private static int playerCnt = 1;
 
-    public Player(String name, String passWord, String player_str, String player_str2) {
+    public Player(String name, String passWord, String player_str, String player_str2) {// player class for players
         this.name = name;
         this.passWord = passWord;
         this.pid = playerCnt;

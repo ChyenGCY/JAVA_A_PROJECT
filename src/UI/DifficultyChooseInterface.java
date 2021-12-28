@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import System.Player;
 import view.GameFrame;
 
-public class DifficultyChooseInterface extends JFrame implements KeyListener {
+public class DifficultyChooseInterface extends JFrame implements KeyListener { // interface for choose difficulty
     public Player player;
 
     public DifficultyChooseInterface(Player player) {

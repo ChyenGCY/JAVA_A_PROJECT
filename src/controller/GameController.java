@@ -85,7 +85,7 @@ public class GameController {
         return this_step;
     }
 
-    public void countScore() {
+    public void countScore() {// count the current score
         // //todo: modify the countScore method
         // if (currentPlayer == ChessPiece.BLACK) {
         // blackScore++;
@@ -109,7 +109,7 @@ public class GameController {
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
-    public int[] AI_DO() {
+    public int[] AI_DO() {// perform the AI step
         int[] step = new int[2];
         if (GameFrame.difficulty == 1)
             step = easyAI.AIStep();
@@ -133,7 +133,7 @@ public class GameController {
         this.gamePanel = gamePanel;
     }
 
-    public boolean checkWin() {
+    public boolean checkWin() {// check if win
         // int[][] chessboard = ChessBoard.instance();
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
@@ -173,39 +173,83 @@ public class GameController {
             return "Both";
     }
 
-    public void readFileData(File file) {
+    public void readFileData(File file) throws Exception {// read data and define the excpetions
         // todo: read date from file
+        int exp = 0;
         ArrayList<String> fileData = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
+            if (!file.getName().endsWith("txt")) {
+                System.out.println("文件格式错误 错误编码：104");
+                throw new Exception();
+            }
             String line;
             while ((line = bufferedReader.readLine()) != null) {
+                if (line.length() > 2) {
+                    if (Math.abs(Integer.parseInt(line.split(" ")[0])) != 1) {
+                        System.out.println("棋子错误 错误编码：102");
+                        exp++;
+                        throw new Exception();
+                    }
+                    if (Integer.parseInt(line.split(" ")[1]) > 8 && Integer.parseInt(line.split(" ")[2]) > 8) {
+                        exp++;
+                        System.out.println("棋盘错误 错误编码：101");
+                        throw new Exception();
+                    }
+                }
+
                 fileData.add(line);
+            }
+            if (fileData.get(fileData.size() - 1).length() > 2) {
+                exp++;
+                System.out.println("缺少行棋方 错误编码：103");
+                throw new Exception();
             }
             // fileData.forEach(System.out::println);
             bufferedReader.close();
             reloadSteps(fileData);
         } catch (IOException e) {
+            System.out.println("其他错误 错误编码：106");
             e.printStackTrace();
         }
     }
 
-    private void reloadSteps(ArrayList<String> fileData) {
+    private void reloadSteps(ArrayList<String> fileData) throws Exception {// reload the steps
         restartGame();
         step = new Step();
         ArrayList<String> sp = new ArrayList<String>();
         for (String str : fileData) {
-            String[] step = str.trim().split(" ");
-            int last_player = Integer.parseInt(step[0]);
-            int x = Integer.parseInt(step[1]);
-            int y = Integer.parseInt(step[2]);
-            gamePanel.setChess(x, y, last_player);
-            GameRule.updateBoard(x, y, last_player);
-            sp.add(str.trim());
+            if (str.length() > 2) {
+                String[] step = str.trim().split(" ");
+                int last_player = Integer.parseInt(step[0]);
+                int x = Integer.parseInt(step[1]);
+                int y = Integer.parseInt(step[2]);
+                if (Integer.parseInt(step[3]) == 0) {
+                    if (!GameRule.isStepAvailable(x, y, last_player)) {
+                        System.out.println("非法落子  错误编码：105");
+                        throw new Exception();
+                    }
+                }
+                if (Integer.parseInt(step[3]) == 9) {
+                    System.out.println("其他错误 错误编码：106");
+                    throw new Exception();
+                }
+                gamePanel.setChess(x, y, last_player);
+                GameRule.updateBoard(x, y, last_player);
+                sp.add(str.trim());
+            }
+            setPlayer(str);
         }
         step.setSteps(sp);
         countScore();
+    }
+
+    private void setPlayer(String str) {
+        countScore();
+        currentPlayer = (str.equals("1")) ? ChessPiece.WHITE : ChessPiece.BLACK;
+        statusPanel.setPlayerText(currentPlayer.name());
+        statusPanel.setScoreText(blackScore, whiteScore);
     }
 
     public void writeDataToFile() throws IOException {
@@ -225,6 +269,7 @@ public class GameController {
             writer.write(str + "\n");
             writer.flush();
         }
+        writer.write(String.valueOf(currentPlayer.getType() * -1));
         writer.close();
     }
 
@@ -234,10 +279,11 @@ public class GameController {
 
     public void restartGame() {
         gamePanel.restartGame();
+        step = new Step();
         currentPlayer = ChessPiece.BLACK;
     }
 
-    public void performOnline(String str) {
+    public void performOnline(String str) { // used in ONLINE solve the message
         int[] step = new int[2];
         step[0] = Integer.valueOf(str.substring(4, 5));
         step[1] = Integer.valueOf(str.substring(7, 8));
@@ -245,13 +291,15 @@ public class GameController {
     }
 
     public void AIGame() {
-        gamePanel.AIGame();
+        String str = gamePanel.AIGame();
+
+        // step.addstep(str);
     }
 
-    public void withdrawLastStep() {
+    public void withdrawLastStep() {// comtrol withdraw the last step
         boolean canWithdraw = step.removeLastStep();
         if (canWithdraw) {
-            restartGame();
+            gamePanel.restartGame();
             for (String str : step.getSteps()) {
                 String[] step = str.trim().split(" ");
                 int last_player = Integer.parseInt(step[0]);

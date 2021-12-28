@@ -56,6 +56,8 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
 
         this.setLocationRelativeTo(null);
 
+        // set pannel and frame
+
         chessBoardPanel = new ChessBoardPanel((int) (this.getWidth() * 0.8), (int) (this.getHeight() * 0.7));
         chessBoardPanel.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2,
                 (this.getHeight() - chessBoardPanel.getHeight()) / 3);
@@ -71,6 +73,8 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         GameFrame.difficulty = difficulty;
         GameFrame.host = host;
         GameFrame.cheating = 0;
+
+        // add different buttons
 
         Font f = new Font("宋体", Font.BOLD, 16);
 
@@ -102,7 +106,13 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
             JFileChooser chooser = new JFileChooser("./savings/" + player.getName());
             System.out.println(chooser.showOpenDialog(frame));
             File file = chooser.getSelectedFile();
-            controller.readFileData(file);
+            try {
+                controller.readFileData(file);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                // System.out.println("其他错误 错误编码：106");
+                e1.printStackTrace();
+            }
             this.requestFocusInWindow();
         });
         loadGameBtn.setBackground(null);
@@ -141,6 +151,8 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         });
         WithdrawButton.setContentAreaFilled(false);
 
+        // define different modes
+
         if (LOCALMODE) {
             controller = new GameController(chessBoardPanel, statusPanel, player);
             controller.setGamePanel(chessBoardPanel);
@@ -166,6 +178,9 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
         add(background);
         background.setBounds(0, 0, 800, 800);
         music.playMusic("./music/zhongli.wav");
+
+        // keyboard settings
+
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addKeyListener(this);
@@ -190,7 +205,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseMotionListene
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) { // key code for functions
         // TODO Auto-generated method stub
         // System.out.println(e.getKeyChar());
         // dispose();

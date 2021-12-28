@@ -3,7 +3,7 @@ package System;
 import java.awt.Container;
 import java.util.ArrayList;
 
-public class Step {
+public class Step {// store the steps
 
     private ArrayList<String> steps;
     private int sid;

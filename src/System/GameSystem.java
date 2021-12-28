@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GameSystem {
+public class GameSystem {// containing the load and reload and player functions
     private static ArrayList<Player> playerList = new ArrayList<>();
     public static GameSystem gameSystem;
 
