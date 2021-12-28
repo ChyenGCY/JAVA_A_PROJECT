@@ -45,7 +45,7 @@ public class ChessGridComponent extends BasicComponent {
                 GameFrame.controller.this_step[0] = 1;
                 GameFrame.controller.this_step[1] = row;
                 GameFrame.controller.this_step[2] = col;
-                String step = GameFrame.controller.getCurrentPlayer().getType() + " " + row + " " + col;
+                String step = GameFrame.controller.getCurrentPlayer().getType() + " " + row + " " + col + " " + "0";
                 GameFrame.controller.getStep().addstep(step);
                 GameFrame.controller.countScore();
                 // GameFrame.controller.checkWin();
@@ -59,14 +59,14 @@ public class ChessGridComponent extends BasicComponent {
         } else if (GameFrame.cheating == 1) {
             this.chessPiece = ChessPiece.WHITE;
             GameRule.updateBoard(row, col, this.chessPiece.getType());
-            String step = chessPiece.WHITE.getType() + " " + row + " " + col;
+            String step = chessPiece.WHITE.getType() + " " + row + " " + col + " " + "1";
             GameFrame.controller.getStep().addstep(step);
             GameFrame.controller.countScore();
         } else if (GameFrame.cheating == -1) {
             this.chessPiece = ChessPiece.BLACK;
             GameRule.updateBoard(row, col, this.chessPiece.getType());
             GameRule.updateBoard(row, col, this.chessPiece.getType());
-            String step = chessPiece.BLACK.getType() + " " + row + " " + col;
+            String step = chessPiece.BLACK.getType() + " " + row + " " + col + " " + "1";
             GameFrame.controller.getStep().addstep(step);
             GameFrame.controller.countScore();
         }
@@ -106,7 +106,7 @@ public class ChessGridComponent extends BasicComponent {
         }
     }
 
-    public void drawShit(Graphics g) {
+    public void drawShit(Graphics g) {// draw the piece to show this place is available
         g.setColor(Color.GREEN);
         g.fillOval((gridSize) / 2 - 4, (gridSize) / 2 - 4, chessSize / 5, chessSize / 5);
     }

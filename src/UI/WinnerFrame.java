@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class WinnerFrame extends JFrame implements KeyListener {
+public class WinnerFrame extends JFrame implements KeyListener {// for winner show
     public WinnerFrame(String string) {
         super(string);
         if (string.equals("BlackPlayer")) {

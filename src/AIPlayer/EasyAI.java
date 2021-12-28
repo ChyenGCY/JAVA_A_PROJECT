@@ -28,7 +28,7 @@ public class EasyAI implements Runnable {
         return chessPiece;
     }
 
-    public int[] AIStep() {
+    public int[] AIStep() {// the easy level ai search for maximum can flip right now
         int max_num = 0;
         int[] step_cordinate = new int[2];
         for (int i = 0; i < 8; i++) {
@@ -43,9 +43,9 @@ public class EasyAI implements Runnable {
         return step_cordinate;
     }
 
-    public int[] middle_AIStep() {
+    public int[] middle_AIStep() {// middle level ai
         int[] step_cordinate = new int[2];
-        int ME = 0; // AI权值
+        int ME = 0; // AI score
         // int maxx = 0;
         int[][] expectnow = new int[8][8];
         int[][] weightMap = new int[8][8];
@@ -60,19 +60,22 @@ public class EasyAI implements Runnable {
                             || (i == 8 - 1 && j == 0)) {
                         step_cordinate[0] = i;
                         step_cordinate[1] = j;
-                        return step_cordinate; // 如果在角，返回角坐标
+                        return step_cordinate; // if the step can in the corner,then return
                     }
-                    newMap = GameRule.virtualFlip(i, j, getChessPiece().getType(), newMap);
+                    newMap = GameRule.virtualFlip(i, j, getChessPiece().getType(), newMap);// simulate this step
 
                     int YOU = -1050; // 探知对手行动力与局势
                     for (int k = 0; k < 8; ++k)
                         for (int l = 0; l < 8; ++l) {
-                            expectnow[k][l] = GameRule.virtual_numCanFlip(k, l, -1 * getChessPiece().getType(), newMap); // 判断对手期望
+                            expectnow[k][l] = GameRule.virtual_numCanFlip(k, l, -1 * getChessPiece().getType(), newMap); // calculate
+                                                                                                                         // the
+                                                                                                                         // oppoment
+                                                                                                                         // score
                             if (expectnow[k][l] != 0) {
                                 YOU = YOU < mapPoint[k][l] + expectnow[k][l] ? mapPoint[k][l] + expectnow[k][l] : YOU;
                             }
                         }
-                    weightMap[i][j] = ME - YOU;
+                    weightMap[i][j] = ME - YOU;// calculate the map weight from ai score -opponent score
                 }
             }
         }
@@ -94,7 +97,7 @@ public class EasyAI implements Runnable {
         return findMaxWeight(weightMap);
     }
 
-    private int[] findMaxWeight(int[][] weightMap) {
+    private int[] findMaxWeight(int[][] weightMap) {// reture the step corresponding to the biggest weight in the map
         int max = -9999999;
         int[] cords = new int[2];
         for (int i = 0; i < 8; i++) {
@@ -114,7 +117,7 @@ public class EasyAI implements Runnable {
         return cords;
     }
 
-    public int[] diff_AIStep() {
+    public int[] diff_AIStep() {// the difficult level if ai
         int[] step_cordinate = new int[2];
         // int maxx = -10005;
         int[][] expectnow = GameRule.getExpectMatrix();
@@ -128,9 +131,9 @@ public class EasyAI implements Runnable {
                             || (i == 8 - 1 && j == 0)) {
                         step_cordinate[0] = i;
                         step_cordinate[1] = j;
-                        return step_cordinate; // 如果在角，返回角坐标
+                        return step_cordinate; // return if in corner
                     }
-                    int k = max_point(i, j, mapp, expectnow, 0, 2); // 递归搜索 搜索三层
+                    int k = max_point(i, j, mapp, expectnow, 0, 2); // deepin for searching
                     // if (k >= maxx)
                     // {
                     // maxx = k;
@@ -140,7 +143,7 @@ public class EasyAI implements Runnable {
                 }
             }
 
-        step_cordinate = findMaxWeight(weightMap);
+        step_cordinate = findMaxWeight(weightMap);// find the max weight
         int[][] newWeightMap = weightMap;
 
         // for (int a = 0; a < 8; a++) {
@@ -153,9 +156,10 @@ public class EasyAI implements Runnable {
         return step_cordinate;
     }
 
-    public int max_point(int x, int y, int[][] mapnow, int[][] expectnow, int depin, int depinmax) {
+    public int max_point(int x, int y, int[][] mapnow, int[][] expectnow, int depin, int depinmax) {// max score in the
+                                                                                                    // map
         if (depin >= depinmax)
-            return 0;
+            return 0;// the exit of the recursion
 
         int maxx = -10005;
 
@@ -167,28 +171,32 @@ public class EasyAI implements Runnable {
         copymap(mapnow2, mapnow);
         mapnow2[x][y] = getChessPiece().getType();
         int ME = mapPoint[x][y] + expectnow[x][y];
-        mapnow2 = GameRule.virtualFlip(x, y, getChessPiece().getType(), mapnow2);
+        mapnow2 = GameRule.virtualFlip(x, y, getChessPiece().getType(), mapnow2);// perfoem the ai step
         int MAXEXPECT = 0, LINEEXPECT = 0;
 
         for (int i = 0; i < 8; ++i)
             for (int j = 0; j < 8; ++j) {
                 // expectnow[k][l] = GameRule.virtual_numCanFlip(k,
                 // l,-1*getChessPiece().getType(), newMap);
-                expectnow2[i][j] = GameRule.virtual_numCanFlip(i, j, -1 * getChessPiece().getType(), mapnow2); // 预判对方是否可以走棋
+                expectnow2[i][j] = GameRule.virtual_numCanFlip(i, j, -1 * getChessPiece().getType(), mapnow2); // get
+                                                                                                               // the
+                                                                                                               // opponent
+                                                                                                               // expect
+                                                                                                               // matrix
                 if (expectnow2[i][j] != 0) {
                     ++MAXEXPECT;
                     if ((i == 0 && j == 0) || (i == 0 && j == 8 - 1) || (i == 8 - 1 && j == 8 - 1)
                             || (i == 8 - 1 && j == 0))
-                        return -1800; // 如果对方有占角的可能
+                        return -1800; // return a large minus score if the opponent can draw in the corner
                     if ((i < 2 && j < 2) || (i < 2 && 8 - j - 1 < 2) || (8 - 1 - i < 2 && j < 2)
                             || (8 - 1 - i < 2 && 8 - 1 - j < 2))
                         ++LINEEXPECT;
                 }
             }
         if (LINEEXPECT * 10 > MAXEXPECT * 7)
-            return 1800; // 如果对方走到坏点状态较多 剪枝
+            return 1800; // cut if the opponent situation is bad
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++)// the following is similiar to the middle ai
             for (int j = 0; j < 8; j++)
                 if (expectnow2[i][j] != 0) {
                     int YOU = mapPoint[i][j] + expectnow2[i][j];
@@ -218,7 +226,7 @@ public class EasyAI implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() { // a new thread to perform the ai step autamatically when player has done
         // TODO Auto-generated method stub
         while (true) {
             System.out.print("");
